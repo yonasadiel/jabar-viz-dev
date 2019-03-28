@@ -4,6 +4,7 @@ RUN apk update
 RUN apk add \
     composer \
     nginx \
+    nodejs \
     openrc \
     php \
     php-curl \
@@ -20,7 +21,8 @@ RUN apk add \
     php-xmlwriter \
     php-zlib \
     postgresql \
-    postgresql-contrib
+    postgresql-contrib \
+    yarn
 
 EXPOSE 80 443
 

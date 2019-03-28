@@ -1,9 +1,5 @@
 # JABAR-VIZ-DEV
 
-## Requirement
-
-* Docker
-
 ## Setup
 
 Build the image:
@@ -20,11 +16,16 @@ Create volume:
 
 ## Run
 
-    docker container kill $(docker container ls --quiet)
     docker run \
         --mount src=$(pwd)/viz-dev-backend,target=/home/vizdev/viz-dev-backend,type=bind \
-        --mount src=viz-dev-dbdata,target=/home/vizdev/dbdata,type=bind \
-        -p 80:80 \
+        --mount src=$(pwd)/viz-dev-frontend,target=/home/vizdev/viz-dev-frontend,type=bind \
+        -v viz-dev-dbdata:/home/vizdev/dbdata \
+        -p 80:8080 \
+        -p 8000:80 \
         -it viz-dev
 
 This might take a while. Wait until `UP!` is appear in your terminal.
+
+To spawn a terminal inside docker:
+
+    docker exec -it $(docker container ls --quiet) /bin/sh
