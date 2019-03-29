@@ -4,11 +4,11 @@
 
 Build the image:
 
-    docker build . -t viz-dev
+    docker build . --rm -t viz-dev
 
 or with proxy:
 
-    docker build . --build-arg http_proxy="http://167.205.22.102:8800" -t viz-dev
+    docker build . --rm --build-arg http_proxy="http://167.205.22.102:8800" -t viz-dev
 
 Create volume:
 
