@@ -10,7 +10,8 @@ cd /home/vizdev/viz-dev-backend
 su -c 'postgres -D /home/vizdev/dbdata &' postgres
 # copy development environment
 cp .env.dev .env
-# run update
+# install composer dependencies
+composer clear-cache
 composer update
 # generate key
 php artisan key:generate
