@@ -1,7 +1,7 @@
 before_script:
-  - sudo apt-get update -y
-  - sudo apt-get install docker.io -y
-  - sudo apt-get install docker -y
+  - apt-get update -y
+  - apt-get install docker.io -y
+  - apt-get install docker -y
   - docker info
 
 build_image:
