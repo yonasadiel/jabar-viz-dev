@@ -5,4 +5,4 @@ build_image:
   script:
     - docker volume create viz-dev-dbdata
     - docker build . --rm -t viz-dev
-    - docker run viz-dev /home/vizdev/viz-dev-backend/vendor/phpunit/phpunit/phpunit
+    - docker run viz-dev /home/vizdev/
