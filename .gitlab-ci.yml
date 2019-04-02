@@ -1,7 +1,4 @@
 before_script:
-  - apt-get update -y
-  - apt-get install docker.io -y
-  - apt-get install docker -y
   - docker info
 
 build_image:
@@ -9,7 +6,7 @@ build_image:
     - docker volume create viz-dev-dbdata
     - mkdir /etc/systemd/system/docker.service.d
     - echo > [Service]\nEnvironment="HTTP_PROXY=http://167.205.22.102:8800" > /etc/systemd/system/docker.service.d/http-proxy.conf
-    - sudo systemctl daemon-reload
-    - sudo systemctl restart docker
+    - systemctl daemon-reload
+    - systemctl restart docker
     - docker build . --rm -t viz-dev
     - docker exec -t f2c4e5977539 /home/vizdev/viz-dev-backend/vendor/phpunit/phpunit/phpunit /home/vizdev/viz-dev-backend/tests
