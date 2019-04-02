@@ -5,4 +5,5 @@ build_image:
   script:
     - docker volume create viz-dev-dbdata
     - docker build . --rm -t viz-dev
+    - docker run     --mount src=$(pwd)/viz-dev-backend,target=/home/vizdev/viz-dev-backend,type=bind     --mount src=$(pwd)/viz-dev-frontend,target=/home/vizdev/viz-dev-frontend,type=bind     -v viz-dev-dbdata:/home/vizdev/dbdata     -p 80:8080     -p 8000:80     -it viz-dev
     - docker exec -t f2c4e5977539 /home/vizdev/viz-dev-backend/vendor/phpunit/phpunit/phpunit /home/vizdev/viz-dev-backend/tests
