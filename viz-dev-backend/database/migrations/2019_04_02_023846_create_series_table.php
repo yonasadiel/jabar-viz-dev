@@ -13,7 +13,7 @@ class CreateSeriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('series', function (Blueprint $table) {
+        Schema::create('vizdev_series', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('description', 400);

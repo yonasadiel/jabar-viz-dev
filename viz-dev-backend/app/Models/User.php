@@ -36,4 +36,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function can_modify_users() {
+        return $this->role === 'admin';
+    }
+
+    public function can_modify_entries() {
+        return $this->role === 'dinas' || $this->role === 'pemprov';
+    }
 }
