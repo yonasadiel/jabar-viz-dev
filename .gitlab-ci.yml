@@ -1,4 +1,5 @@
 before_script:
+  - apk update
   - docker info
 
 build_image:
