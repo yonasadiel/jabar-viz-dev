@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
             $table->bigIncrements('id');
             $table->string('username');
             $table->string('email')->unique();
+            $table->string('password');
             $table->enum('role', [User::ROLE_DINAS, User::ROLE_ADMIN, User::ROLE_PEMPROV])->default(User::ROLE_DINAS);
             $table->timestamps();
         });
