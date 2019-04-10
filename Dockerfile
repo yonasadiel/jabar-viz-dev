@@ -40,5 +40,7 @@ RUN chown -R postgres /home/vizdev/dbdata
 RUN chown -R postgres:postgres /var/run/postgresql
 RUN su -c 'initdb -D /home/vizdev/dbdata --locale en_US.UTF-8 -E UTF8' postgres
 
+COPY vizdevdb.sql /docker-entrypoint-initdb.d/init.sql
+
 ADD entrypoint.sh /home/vizdev/entrypoint.sh
 ENTRYPOINT ["/home/vizdev/entrypoint.sh"]

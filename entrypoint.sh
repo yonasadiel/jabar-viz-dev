@@ -13,18 +13,29 @@ cp .env.dev .env
 # install composer dependencies
 composer clear-cache
 composer update
+
+# run postgres initdb
+# su -c "createdb vizdev" postgres || true
+for f in /docker-entrypoint-initdb.d/*; do
+        case "$f" in
+            *.sh)  echo "$0: running $f"; . "$f" ;;
+            *.sql) echo "$0: running $f"; psql --username "postgres" < "$f" && echo ;;
+            *)     echo "$0: ignoring $f" ;;
+        esac
+        echo
+done
+
 # generate key
 php artisan key:generate
-# create database.
-# assuming the postgres already running
-# if database is already exist, skip to next command
-su -c 'createdb vizdev' postgres || true
 # run migration
 php artisan migrate
 # start php-fpm
 php-fpm7
 # start nginx
 nginx &
+
+composer dump-autoload
+php artisan db:seed
 
 ####### Frontend Configuration #######
 cd /home/vizdev/viz-dev-frontend

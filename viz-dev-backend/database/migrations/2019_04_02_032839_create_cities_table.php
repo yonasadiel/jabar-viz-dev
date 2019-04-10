@@ -1,11 +1,10 @@
 <?php
 
-use App\Models\User;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUsersTable extends Migration
+class CreateCitiesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,12 +13,9 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('vizdev_users', function (Blueprint $table) {
+        Schema::create('vizdev_cities', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('username');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->enum('role', [User::ROLE_DINAS, User::ROLE_ADMIN, User::ROLE_PEMPROV])->default(User::ROLE_DINAS);
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -31,6 +27,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('vizdev_users');
+        Schema::dropIfExists('vizdev_cities');
     }
 }
