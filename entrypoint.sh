@@ -26,6 +26,9 @@ php-fpm7
 # start nginx
 nginx &
 
+composer dump-autoload
+php artisan db:seed
+
 ####### Frontend Configuration #######
 cd /home/vizdev/viz-dev-frontend
 
