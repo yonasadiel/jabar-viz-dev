@@ -8,25 +8,15 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
+
+    const ROLE_ADMIN = 'admin';
+    const ROLE_DINAS = 'dinas';
+    const ROLE_PEMPROV = 'pemprov';
+
     use Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'name', 'email', 'password',
-    ];
-
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password', 'remember_token', 'created_at', 'updated_at',
-    ];
+    protected $fillable = ['username', 'email', 'password'];
+    protected $hidden = ['password', 'created_at', 'updated_at'];
 
     /**
      * The attributes that should be cast to native types.
@@ -38,10 +28,10 @@ class User extends Authenticatable
     ];
 
     public function can_modify_users() {
-        return $this->role === 'admin';
+        return $this->role === self::ROLE_ADMIN;
     }
 
     public function can_modify_entries() {
-        return $this->role === 'dinas' || $this->role === 'pemprov';
+        return $this->role === self::ROLE_DINAS || $this->role === self::ROLE_PEMPROV;
     }
 }

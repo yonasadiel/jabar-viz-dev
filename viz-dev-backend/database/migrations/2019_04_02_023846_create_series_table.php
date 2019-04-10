@@ -15,10 +15,8 @@ class CreateSeriesTable extends Migration
     {
         Schema::create('vizdev_series', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
-            $table->string('description', 400);
-            $table->integer('start_year');
-            $table->integer('end_year');
+            $table->string('name', 50);
+            $table->string('description', 500);
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateSeriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('series');
+        Schema::dropIfExists('vizdev_series');
     }
 }

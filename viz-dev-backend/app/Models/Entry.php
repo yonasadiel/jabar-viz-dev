@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models;
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Series extends Model
+class Entry extends Model
 {
-    protected $fillable = ['name', 'description'];
+    protected $fillable = ['name'];
     protected $hidden = ['created_at', 'updated_at'];
 }
