@@ -18,8 +18,5 @@ Route::prefix('v1')->group(function () {
 
     Route::get('entries', 'EntryController@index');
     Route::get('series', 'SeriesController@index');
-
-    Route::get('tes', function () {
-        //
-    });
+    Route::post('series', 'SeriesController@store');
 });
