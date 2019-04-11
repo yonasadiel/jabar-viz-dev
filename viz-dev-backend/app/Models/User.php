@@ -15,6 +15,7 @@ class User extends Authenticatable
 
     use Notifiable;
 
+    protected $table = 'vizdev_users';
     protected $fillable = ['username', 'email', 'password'];
     protected $hidden = ['password', 'created_at', 'updated_at'];
 

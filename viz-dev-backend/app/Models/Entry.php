@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Entry extends Model
 {
+    protected $table = 'vizdev_entries';
     protected $fillable = ['name'];
     protected $hidden = ['created_at', 'updated_at'];
 }

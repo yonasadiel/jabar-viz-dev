@@ -5,6 +5,7 @@ set -e
 
 ####### Backend Configuration #######
 cd /home/vizdev/viz-dev-backend
+chmod 777 -R /home/vizdev/viz-dev-backend/storage
 
 # start postgresql
 su -c 'postgres -D /home/vizdev/dbdata &' postgres
