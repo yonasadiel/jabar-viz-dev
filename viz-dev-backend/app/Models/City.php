@@ -12,6 +12,6 @@ class City extends Model
 
     public function entries()
     {
-        return $this->hasMany('\App\Models\Entry', 'city_id', 'id');
+        return $this->hasMany('\App\Models\Entry', 'cities_id', 'id');
     }
 }

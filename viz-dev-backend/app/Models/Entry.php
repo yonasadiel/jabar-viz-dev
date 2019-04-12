@@ -17,6 +17,6 @@ class Entry extends Model
 
     public function city()
     {
-        return $this->belongsTo('\App\Models\City', 'city_id', 'id');
+        return $this->belongsTo('\App\Models\City', 'cities_id', 'id');
     }
 }
