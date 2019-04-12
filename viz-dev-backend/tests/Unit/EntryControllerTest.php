@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Models\Entry;
 use App\Models\Series;
+use App\Models\User;
 use App\Http\Controllers\SeriesController;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -13,6 +14,17 @@ class EntryControllerTest extends TestCase
     use RefreshDatabase;
 
     private $base_api = '/api/v1/';
+    private $admin_user = null;
+    private $pemprov_user = null;
+    private $dinas_user = null;
+
+    public function setUp() : void
+    {
+        parent::setUp();
+        $this->admin_user = User::where('role', 'admin')->first();
+        $this->pemprov_user = User::where('role', 'pemprov')->first();
+        $this->dinas_user = User::where('role', 'dinas')->first();
+    }
 
     public function testGetEntriesSuccess()
     {
@@ -92,7 +104,7 @@ class EntryControllerTest extends TestCase
         ];
 
         $api = $this->base_api . 'series/' . $entry->series_id . '/city/' . $entry->cities_id . '/year/2020/entry';
-        $response = $this->json('POST', $api, $new_entry);
+        $response = $this->actingAs($this->pemprov_user)->json('POST', $api, $new_entry);
         $response->assertStatus(201);
 
         $returned_entry = $response->json();
@@ -116,7 +128,7 @@ class EntryControllerTest extends TestCase
         ];
 
         $api = $this->base_api . 'series/12345/city/' . $entry->cities_id . '/year/2020/entry';
-        $response = $this->json('POST', $api, $new_entry);
+        $response = $this->actingAs($this->pemprov_user)->json('POST', $api, $new_entry);
         $response->assertStatus(404);
 
         $err = $response->json();
@@ -131,7 +143,7 @@ class EntryControllerTest extends TestCase
         ];
 
         $api = $this->base_api . 'series/' . $entry->series_id . '/city/121212/year/2020/entry';
-        $response = $this->json('POST', $api, $new_entry);
+        $response = $this->actingAs($this->pemprov_user)->json('POST', $api, $new_entry);
         $response->assertStatus(404);
 
         $err = $response->json();
@@ -146,7 +158,7 @@ class EntryControllerTest extends TestCase
         ];
 
         $api = $this->base_api . 'series/' . $entry->series_id . '/city/' . $entry->cities_id . '/year/2020/entry';
-        $response = $this->json('POST', $api, $new_entry);
+        $response = $this->actingAs($this->pemprov_user)->json('POST', $api, $new_entry);
         $response->assertStatus(400);
 
         $err = $response->json();
@@ -161,7 +173,7 @@ class EntryControllerTest extends TestCase
         ];
 
         $api = $this->base_api . 'series/' . $entry->series_id . '/city/' . $entry->cities_id . '/year/' . $entry->year . '/entry';
-        $response = $this->json('POST', $api, $new_entry);
+        $response = $this->actingAs($this->pemprov_user)->json('POST', $api, $new_entry);
         $response->assertStatus(200);
 
         $returned_entry = $response->json();
@@ -185,7 +197,7 @@ class EntryControllerTest extends TestCase
         ];
 
         $api = $this->base_api . 'series/12345/city/' . $entry->cities_id . '/year/' . $entry->year . '/entry';
-        $response = $this->json('POST', $api, $new_entry);
+        $response = $this->actingAs($this->pemprov_user)->json('POST', $api, $new_entry);
         $response->assertStatus(404);
 
         $err = $response->json();
@@ -200,7 +212,7 @@ class EntryControllerTest extends TestCase
         ];
 
         $api = $this->base_api . 'series/' . $entry->series_id . '/city/121212/year/' . $entry->year . '/entry';
-        $response = $this->json('POST', $api, $new_entry);
+        $response = $this->actingAs($this->pemprov_user)->json('POST', $api, $new_entry);
         $response->assertStatus(404);
 
         $err = $response->json();
@@ -215,7 +227,7 @@ class EntryControllerTest extends TestCase
         ];
 
         $api = $this->base_api . 'series/' . $entry->series_id . '/city/' . $entry->cities_id . '/year/' . $entry->year . '/entry';
-        $response = $this->json('POST', $api, $new_entry);
+        $response = $this->actingAs($this->pemprov_user)->json('POST', $api, $new_entry);
         $response->assertStatus(400);
 
         $err = $response->json();

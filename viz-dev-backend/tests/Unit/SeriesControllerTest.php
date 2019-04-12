@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Models\Series;
+use App\Models\User;
 use App\Http\Controllers\SeriesController;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -12,6 +13,17 @@ class SeriesControllerTest extends TestCase
     use RefreshDatabase;
 
     private $api = '/api/v1/series/';
+    private $admin_user = null;
+    private $pemprov_user = null;
+    private $dinas_user = null;
+
+    public function setUp() : void
+    {
+        parent::setUp();
+        $this->admin_user = User::where('role', 'admin')->first();
+        $this->pemprov_user = User::where('role', 'pemprov')->first();
+        $this->dinas_user = User::where('role', 'dinas')->first();
+    }
 
     public function testGetSeries()
     {
@@ -39,7 +51,7 @@ class SeriesControllerTest extends TestCase
     {
         $series = Series::first();
 
-        $response = $this->json('GET', $this->api . $series->id . '/');
+        $response = $this->actingAs($this->pemprov_user)->json('GET', $this->api . $series->id . '/');
         $response->assertStatus(200);
 
         $retrieved_series = $response->json();
@@ -63,7 +75,7 @@ class SeriesControllerTest extends TestCase
             'description' => 'Deskripsi Series 1',
         ];
 
-        $response = $this->json('POST', $this->api, $new_series);
+        $response = $this->actingAs($this->pemprov_user)->json('POST', $this->api, $new_series);
         $response->assertStatus(201);
 
         $series = $response->json();
@@ -77,7 +89,7 @@ class SeriesControllerTest extends TestCase
             'name' => 'Series 1',
         ];
 
-        $response = $this->json('POST', $this->api, $new_series);
+        $response = $this->actingAs($this->pemprov_user)->json('POST', $this->api, $new_series);
         $response->assertStatus(201);
 
         $series = $response->json();
@@ -91,7 +103,7 @@ class SeriesControllerTest extends TestCase
             'description' => 'Deskripsi Series 1',
         ];
 
-        $response = $this->json('POST', $this->api, $new_series);
+        $response = $this->actingAs($this->pemprov_user)->json('POST', $this->api, $new_series);
         $response->assertStatus(400, 'Series should have name');
 
         $err = $response->json();
@@ -107,7 +119,7 @@ class SeriesControllerTest extends TestCase
             'description' => 'Deskripsi Series 1 baru',
         ];
 
-        $response = $this->json('PATCH', $this->api . $updated_series->id . '/', $new_series);
+        $response = $this->actingAs($this->pemprov_user)->json('PATCH', $this->api . $updated_series->id . '/', $new_series);
         $response->assertStatus(200);
 
         $series = $response->json();
@@ -127,7 +139,7 @@ class SeriesControllerTest extends TestCase
             'name' => 'Series 1 baru',
         ];
 
-        $response = $this->json('PATCH', $this->api . $updated_series->id . '/', $new_series);
+        $response = $this->actingAs($this->pemprov_user)->json('PATCH', $this->api . $updated_series->id . '/', $new_series);
         $response->assertStatus(200);
 
         $series = $response->json();
@@ -145,7 +157,7 @@ class SeriesControllerTest extends TestCase
             'name' => 'Series 1 baru',
             'description' => 'Deskripsi Series 1 baru',
         ];
-        $response = $this->json('PATCH', $this->api . '1111/', $new_series);
+        $response = $this->actingAs($this->pemprov_user)->json('PATCH', $this->api . '1111/', $new_series);
         $response->assertStatus(404);
 
         $err = $response->json();
@@ -156,7 +168,7 @@ class SeriesControllerTest extends TestCase
     {
         $deleted_series = Series::first();
 
-        $response = $this->json('DELETE', $this->api . $deleted_series->id . '/');
+        $response = $this->actingAs($this->pemprov_user)->json('DELETE', $this->api . $deleted_series->id . '/');
         $response->assertStatus(200);
 
         $series = $response->json();
@@ -168,7 +180,7 @@ class SeriesControllerTest extends TestCase
 
     public function testDeleteSeriesFailedNotFound()
     {
-        $response = $this->json('DELETE', $this->api . '1111/');
+        $response = $this->actingAs($this->pemprov_user)->json('DELETE', $this->api . '1111/');
         $response->assertStatus(404);
 
         $err = $response->json();

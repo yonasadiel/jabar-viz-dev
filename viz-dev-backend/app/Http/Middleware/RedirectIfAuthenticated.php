@@ -18,7 +18,10 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)->check()) {
-            return redirect('/home');
+            return response([
+                'code' => 'ALREADY_AUTHENTICATED',
+                'message' => 'You are already authenticated to access this API',
+            ]);
         }
 
         return $next($request);
