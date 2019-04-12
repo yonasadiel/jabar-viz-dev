@@ -6,7 +6,7 @@
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
-         processIsolation="false"
+         processIsolation="true"
          stopOnFailure="false">
     <testsuites>
         <testsuite name="Unit">
@@ -23,6 +23,7 @@
         </whitelist>
     </filter>
     <php>
+        <ini name="memory_limit" value="1G" />
         <server name="APP_ENV" value="testing"/>
         <server name="BCRYPT_ROUNDS" value="4"/>
         <server name="CACHE_DRIVER" value="array"/>

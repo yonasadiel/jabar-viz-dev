@@ -26,7 +26,7 @@ class CitiesSeriesEntriesTableSeeder extends Seeder
             'Kab Majalengka',
             'Kab Pangandaran',
             'Kab Purwakarta',
-            'Kab Subang ',
+            'Kab Subang',
             'Kab Sukabumi',
             'Kab Sumedang',
             'Kab Tasikmalaya',
@@ -36,7 +36,7 @@ class CitiesSeriesEntriesTableSeeder extends Seeder
             'Kota Bogor',
             'Kota Cimahi',
             'Kota Cirebon',
-            'Kota Depok ',
+            'Kota Depok',
             'Kota Sukabumi',
             'Kota Tasikmalaya',
         ];
