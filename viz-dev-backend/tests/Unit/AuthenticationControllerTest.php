@@ -2,10 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\Models\Entry;
-use App\Models\Series;
 use App\Models\User;
-use App\Http\Controllers\SeriesController;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
