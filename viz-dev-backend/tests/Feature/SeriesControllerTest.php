@@ -96,6 +96,21 @@ class SeriesControllerTest extends TestCase
         $this->assertEquals($series['description'], '-', 'Series posted should "-" desc if not given desc');
     }
 
+    public function testAddSeriesFailedNotAuthorized()
+    {
+        $new_series = [
+            'name' => 'Series 1',
+            'description' => 'Deskripsi Series 1',
+        ];
+
+        $response = $this->json('POST', $this->api, $new_series);
+        $response->assertStatus(401);
+
+
+        $err = $response->json();
+        $this->assertEquals($err['code'], 'NOT_AUTHORIZED');
+    }
+
     public function testAddSeriesFailedMissingName()
     {
         $new_series = [
@@ -150,6 +165,22 @@ class SeriesControllerTest extends TestCase
         $this->assertEquals($updated_series['description'], $old_desc, 'The series should have equal desc to old desc');
     }
 
+    public function testUpdateSeriesFailedNotAuthorized()
+    {
+        $updated_series = Series::first();
+        $new_series = [
+            'name' => 'Series 1 baru',
+            'description' => 'Deskripsi Series 1 baru',
+        ];
+
+        $response = $this->json('PATCH', $this->api . $updated_series->id . '/', $new_series);
+        $response->assertStatus(401);
+
+
+        $err = $response->json();
+        $this->assertEquals($err['code'], 'NOT_AUTHORIZED');
+    }
+
     public function testUpdateSeriesFailedNotFound()
     {
         $new_series = [
@@ -175,6 +206,18 @@ class SeriesControllerTest extends TestCase
         $this->assertEquals($deleted_series['description'], $series['description'], 'The series should have equal desc to old desc');
 
         $this->assertEquals(2, Series::count(), 'Series should be deleted');
+    }
+
+    public function testDeleteSeriesFailedNotAuthorized()
+    {
+        $deleted_series = Series::first();
+
+        $response = $this->json('DELETE', $this->api . $deleted_series->id . '/');
+        $response->assertStatus(401);
+
+
+        $err = $response->json();
+        $this->assertEquals($err['code'], 'NOT_AUTHORIZED');
     }
 
     public function testDeleteSeriesFailedNotFound()

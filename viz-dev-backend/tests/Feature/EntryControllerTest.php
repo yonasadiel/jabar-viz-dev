@@ -119,6 +119,22 @@ class EntryControllerTest extends TestCase
         $this->assertEquals($db_entry->value, $new_entry['value']);
     }
 
+    public function testAddEntryFailedNotAuthorized()
+    {
+        $entry = Entry::orderBy('id', 'desc')->take(1)->first();
+        $new_entry = [
+            'value' => 21827,
+        ];
+
+        $api = $this->base_api . 'series/' . $entry->series_id . '/city/' . $entry->cities_id . '/year/2020/entry';
+        $response = $this->json('POST', $api, $new_entry);
+        $response->assertStatus(401);
+
+
+        $err = $response->json();
+        $this->assertEquals($err['code'], 'NOT_AUTHORIZED');
+    }
+
     public function testAddEntryFailedSeriesNotFound()
     {
         $entry = Entry::orderBy('id', 'desc')->take(1)->first();
@@ -186,6 +202,22 @@ class EntryControllerTest extends TestCase
         $this->assertEquals($db_entry->cities_id, $entry->cities_id);
         $this->assertEquals($db_entry->year, $entry->year);
         $this->assertEquals($db_entry->value, $new_entry['value']);
+    }
+
+    public function testUpdateEntryFailedNotAuhorized()
+    {
+        $entry = Entry::orderBy('id', 'desc')->take(1)->first();
+        $new_entry = [
+            'value' => 21827,
+        ];
+
+        $api = $this->base_api . 'series/' . $entry->series_id . '/city/' . $entry->cities_id . '/year/' . $entry->year . '/entry';
+        $response = $this->json('POST', $api, $new_entry);
+        $response->assertStatus(401);
+
+
+        $err = $response->json();
+        $this->assertEquals($err['code'], 'NOT_AUTHORIZED');
     }
 
     public function testUpdateEntryFailedSeriesNotFound()
