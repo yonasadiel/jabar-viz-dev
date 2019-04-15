@@ -25,6 +25,8 @@ Route::prefix('v1')->group(function () {
     Route::get('series/{series_id}/city/{cities_id}/year/{year}/entry', 'EntryController@show');
 
     Route::middleware('auth')->group(function() {
+        Route::get('me', 'AuthenticationController@me');
+
         Route::post('series', 'SeriesController@store');
         Route::put('series/{id}', 'SeriesController@update');
         Route::patch('series/{id}', 'SeriesController@update');
