@@ -51,7 +51,7 @@ class SeedData extends Migration
             'Kab Subang',
             'Kab Sukabumi',
             'Kab Sumedang',
-            'Kab Tasimalaya',
+            'Kab Tasikmalaya',
             'Kota Bandung',
             'Kota Banjar',
             'Kota Bekasi',

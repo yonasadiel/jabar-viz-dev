@@ -6,10 +6,6 @@ Build the image:
 
     docker build . --rm -t viz-dev
 
-or with proxy:
-
-    docker build . --rm --build-arg http_proxy="http://167.205.22.102:8800" -t viz-dev
-
 Create volume:
 
     docker volume create viz-dev-dbdata
@@ -24,8 +20,4 @@ Create volume:
         -p 8000:80 \
         -it viz-dev
 
-This might take a while. Wait until `UP!` is appear in your terminal.
-
-To spawn a terminal inside docker:
-
-    docker exec -it $(docker container ls --quiet) /bin/sh
+This might take a while. After all script executed, bash will pop up.

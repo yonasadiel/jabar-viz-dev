@@ -2,10 +2,11 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
-class RedirectIfAuthenticated
+class AdminOnly
 {
     /**
      * Handle an incoming request.
@@ -17,11 +18,11 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if (Auth::guard($guard)->check()) {
+        if (Auth::user()->role !== User::ROLE_ADMIN) {
             return response([
-                'code' => 'ALREADY_AUTHENTICATED',
-                'message' => 'You are already authenticated to access this API',
-            ]);
+                'code' => 'NOT_AUTHORIZED',
+                'message' => 'You don\'t have privileges to do this action',
+            ], 401);
         }
 
         return $next($request);
