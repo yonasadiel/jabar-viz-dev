@@ -12,11 +12,15 @@ class UserModelTest extends TestCase
     use RefreshDatabase;
 
     private $admin_user = null;
+    private $pemprov_user = null;
+    private $dinas_user = null;
 
     public function setUp() : void
     {
         parent::setUp();
-        $this->admin_user = User::where('role', User::ROLE_ADMIN)->first();
+        $this->admin_user = User::where('role', 'admin')->first();
+        $this->pemprov_user = User::where('role', 'pemprov')->first();
+        $this->dinas_user = User::where('role', 'dinas')->first();
     }
 
     public function testToJson()
@@ -29,5 +33,12 @@ class UserModelTest extends TestCase
         $this->assertObjectNotHasAttribute('password', $user_json);
         $this->assertObjectNotHasAttribute('created_at', $user_json);
         $this->assertObjectNotHasAttribute('updated_at', $user_json);
+    }
+
+    public function testCanModifyUser()
+    {
+        $this->assertTrue($this->admin_user->can_modify_users());
+        $this->assertFalse($this->pemprov_user->can_modify_users());
+        $this->assertFalse($this->dinas_user->can_modify_users());
     }
 }
