@@ -35,5 +35,7 @@ Route::prefix('v1')->group(function () {
         Route::put('series/{series_id}/city/{cities_id}/year/{year}/entry', 'EntryController@upsert');
         Route::post('series/{series_id}/city/{cities_id}/year/{year}/entry', 'EntryController@upsert');
         Route::patch('series/{series_id}/city/{cities_id}/year/{year}/entry', 'EntryController@upsert');
+
+        Route::middleware('admin')->post('users', 'UserController@store');
     });
 });
