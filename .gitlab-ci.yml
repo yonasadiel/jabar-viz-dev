@@ -1,8 +1,27 @@
+image: docker:stable
+
+variables:
+  DOCKER_HOST: tcp://docker:2375/
+  DOCKER_DRIVER: overlay2
+
+services:
+  - docker:dind
+
 before_script:
   - docker info
+  - apk add composer php php-curl php-mbstring php-pdo php-session php-tokenizer php-xml php-xmlreader php-xmlrpc php-xmlwriter php-zlib
 
-build_image:
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - viz-dev-backend/vendor/
+    - viz-dev-frontend/node_modules/
+
+test:
+  stage: test
   script:
-    - docker volume create viz-dev-dbdata
-    - docker build . --rm -t viz-dev
-    - docker run viz-dev /home/vizdev/
+    - cd viz-dev-backend
+    - composer update
+    - cp .env.dev .env
+    - php artisan key:generate
+    - vendor/phpunit/phpunit/phpunit
