@@ -9,7 +9,7 @@ services:
 
 before_script:
   - docker info
-  - apk add composer php php-curl php-mbstring php-pdo php-pdo_pgsql php-pgsql php-session php-tokenizer php-xml php-xmlreader php-xmlrpc php-xmlwriter php-zlib
+  - apk add composer php php-curl php-mbstring php-pdo php-pdo_sqlite php-sqlite3 php-session php-tokenizer php-xml php-xmlreader php-xmlrpc php-xmlwriter php-zlib
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
@@ -21,7 +21,8 @@ test:
   stage: test
   script:
     - cd viz-dev-backend
+    - touch database/database.sqlite
     - composer update
-    - cp .env.dev .env
+    - cp .env.test .env
     - php artisan key:generate
     - vendor/phpunit/phpunit/phpunit
