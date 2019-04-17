@@ -24,7 +24,7 @@ export default new Router({
     },
     {
       path: '/manage',
-      name: 'manage account',
+      name: 'ManageAccount',
       component: ManageAccount,
     },
   ],
