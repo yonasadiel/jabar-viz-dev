@@ -9,6 +9,48 @@ use Illuminate\Http\Request;
 
 class EntryController extends Controller
 {
+    public static function asCsv(Request $request) {
+        $start_year = Entry::min('year');
+        $end_year = Entry::max('year');
+        $headers = ['regency', 'indicator', ];
+        for ($year = $start_year; $year <= $end_year; $year++) {
+            $headers[] = "{$year}";
+        }
+        $csv_rows = [join(';', $headers)];
+
+        $series = Series::all();
+        $cities = City::all();
+        $entries = Entry::all();
+        $entry_rows = [];
+        foreach ($series as $_series) {
+            $entry_rows[$_series->name] = [];
+            foreach ($cities as $city) {
+                $entry_rows[$_series->name][$city->name] = [];
+            }
+        }
+
+        foreach ($entries as $entry) {
+            $entry_rows[$entry->series->name][$entry->city->name][$entry->year] = $entry->value;
+        }
+
+        foreach ($entry_rows as $series_name => $entry_series) {
+            foreach ($entry_series as $city_name => $entry_series_city) {
+                $row = [$city_name, $series_name];
+                for ($year = $start_year; $year <= $end_year; $year++) {
+                    if (array_key_exists($year, $entry_series_city)) {
+                        $value = $entry_series_city[$year];
+                        $row[] = "{$value}";
+                    } else {
+                        $row[] = ' ';
+                    }
+                }
+                $csv_rows[] = join(';', $row);
+            }
+        }
+
+        return response(join("\n", $csv_rows), 200);
+    }
+
     public static function index(Request $request, $series_id) {
         $series = Series::find($series_id);
         if ($series) {

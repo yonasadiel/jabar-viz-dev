@@ -25,4 +25,4 @@ test:
     - composer update
     - cp .env.test .env
     - php artisan key:generate
-    - vendor/phpunit/phpunit/phpunit
+    - vendor/phpunit/phpunit/phpunit --verbose
