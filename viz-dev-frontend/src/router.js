@@ -2,6 +2,9 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
 import ManageAccount from './views/ManageAccount.vue';
+import Login from './views/Login.vue';
+import Edit from './views/Edit.vue';
+import EditData from './views/EditData.vue';
 
 Vue.use(Router);
 
@@ -26,6 +29,21 @@ export default new Router({
       path: '/manage',
       name: 'ManageAccount',
       component: ManageAccount,
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login,
+    },
+    {
+      path: '/edit',
+      name: 'Edit',
+      component: Edit,
+    },
+    {
+      path: '/edit_data',
+      name: 'Edit_Data',
+      component: EditData,
     },
   ],
 });
