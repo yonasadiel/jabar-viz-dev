@@ -10,9 +10,10 @@
             <div class="flex-row">
                 <div class="flex-col col-header">
                     <div class="row-header">User</div>
-                    <div class="row-entry user" v-for="user in users">
+                    <div class="row-entry user" v-for="user in users" @click="displayModal">
                         {{ user.name }}
                     </div>
+                    <ModalUser v-if="showModal" @close="showModal = false"></ModalUser>
                 </div>
                 <div class="flex-col col-entry">
                     <div class="row-header">Role</div>
@@ -23,7 +24,6 @@
             </div>
         </div>
         <button class="btn__add--user">Add new user</button>
-        <ModalUser></ModalUser>
     </div>
   </div>
 </template>
@@ -46,9 +46,15 @@ export default {
             {name: 'Kokoro', email: 'kokoro@gmail.com', insitusi: 'kpk', role:'editor'},
             {name: 'No Tomo', email: 'no-tomo@gmail.com', insitusi: 'lpm', role:'editor'},
             {name: 'Brigadir', email: 'brigadir@gmail.com', insitusi: 'BI', role:'editor'},
-        ]
+        ],
+        showModal: false
       }
   },
+  methods: {
+      displayModal: function() {
+          this.showModal = true;
+      }
+  }
 };
 </script>
 
