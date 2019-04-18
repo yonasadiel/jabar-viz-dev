@@ -1,17 +1,13 @@
 <template>
   <div>
-    <Navbar></Navbar>
-    <Chart></Chart>
+    <h1>Login Page</h1>
   </div>
 </template>
 
 <script>
-import Chart from '@/components/Chart.vue';
-
 export default {
-  name: 'home',
+  name: 'Login',
   components: {
-    Chart,
   },
 };
 </script>
