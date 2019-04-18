@@ -1,7 +1,7 @@
 <template>
   <div class="cards">
     <div v-for="picture in pictures">
-        <img src={{ picture.link }} alt="button_play" />
+        <img src="#" alt="button_play" />
         <div class="container">
             <h4><b>{{ picture.name }}</b></h4>
             <p> {{ picture.desc }} </p>
