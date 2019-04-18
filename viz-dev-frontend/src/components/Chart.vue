@@ -1,6 +1,5 @@
 <template>
     <div>
-        <p>Tes Chart</P>
         <div id="placeholder"></div>
     </div>
 </template>
@@ -59,6 +58,8 @@ export default {
 
 <style scoped>
 #placeholder {
-  max-width: 600px;
+  width: 100%;
+  height: 400px;
+  margin: 10px 15px;
 }
 </style>
