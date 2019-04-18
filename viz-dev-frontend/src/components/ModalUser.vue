@@ -30,16 +30,16 @@ export default {
 
 <style scoped>
 .modal__show--user {
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  padding-top: 150px; /* Location of the box */
+  position: fixed;
+  z-index: 1;
+  padding-top: 150px;
   left: 0;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
 }
 
 .modal__content {
@@ -56,7 +56,6 @@ export default {
   animation-duration: 0.4s;
 }
 
-/* Add Animation */
 @keyframes animatetop {
   from {top: -300px; opacity: 0}
   to {top: 0; opacity: 1}
@@ -76,7 +75,6 @@ export default {
   cursor: pointer;
 }
 
-/* Modal Header */
 .modal__header {
   padding: 2px 16px;
   background-color: rgba(6, 116, 210, 1);
@@ -84,7 +82,6 @@ export default {
   text-align: center;
 }
 
-/* Modal Body */
 .modal__body {
   padding: 2px 16px;
   text-align: center;

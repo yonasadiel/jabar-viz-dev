@@ -10,16 +10,17 @@
             <div class="flex-row">
                 <div class="flex-col col-header">
                     <div class="row-header">User</div>
-                    <div class="row-entry user" v-for="user in users" @click="displayModal">
+                    <div class="row-entry user" v-for="user in users" @click="displayModalUser">
                         {{ user.name }}
                     </div>
-                    <ModalUser v-if="showModal" @close="showModal = false"></ModalUser>
+                    <ModalUser v-if="showModalUser" @close="showModalUser = false"></ModalUser>
                 </div>
                 <div class="flex-col col-entry">
                     <div class="row-header">Role</div>
                     <div class="row-entry role" v-for="user in users">
-                        {{ user.role }} <button class="btn__edit--role">Edit</button>
+                        {{ user.role }} <button class="btn__edit--role" @click="displayModalRole">Edit</button>
                     </div>
+                    <ModalEditRole v-if="showModalRole" @close="showModalRole = false"></ModalEditRole>
                 </div>
             </div>
         </div>
@@ -30,10 +31,12 @@
 
 <script>
 import ModalUser from '@/components/ModalUser.vue';
+import ModalEditRole from '@/components/ModalEditRole.vue';
 export default {
   name: 'ManageAccount',
   components: {
-      ModalUser: ModalUser
+      ModalUser: ModalUser,
+      ModalEditRole: ModalEditRole
   },
   data() {
       return {
@@ -47,12 +50,16 @@ export default {
             {name: 'No Tomo', email: 'no-tomo@gmail.com', insitusi: 'lpm', role:'editor'},
             {name: 'Brigadir', email: 'brigadir@gmail.com', insitusi: 'BI', role:'editor'},
         ],
-        showModal: false
+        showModalUser: false,
+        showModalRole: false
       }
   },
   methods: {
-      displayModal: function() {
-          this.showModal = true;
+      displayModalUser: function() {
+          this.showModalUser = true;
+      },
+      displayModalRole: function() {
+          this.showModalRole = true;
       }
   }
 };
