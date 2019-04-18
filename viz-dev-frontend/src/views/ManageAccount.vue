@@ -10,39 +10,43 @@
             <div class="flex-row">
                 <div class="flex-col col-header">
                     <div class="row-header">User</div>
-                    <div class="row-entry user">User 1</div>
-                    <div class="row-entry user">User 2</div>
-                    <div class="row-entry user">User 3</div>
-                    <div class="row-entry user">User 4</div>
-                    <div class="row-entry user">User 5</div>
-                    <div class="row-entry user">User 6</div>
-                    <div class="row-entry user">User 7</div>
-                    <div class="row-entry user">User 8</div>
+                    <div class="row-entry user" v-for="user in users">
+                        {{ user.name }}
+                    </div>
                 </div>
                 <div class="flex-col col-entry">
                     <div class="row-header">Role</div>
-                    <div class="row-entry role">Role 1 <button class="btn__edit--role">Edit</button></div>
-                    <div class="row-entry role">Role 2 <button class="btn__edit--role">Edit</button></div>
-                    <div class="row-entry role">Role 3 <button class="btn__edit--role">Edit</button></div>
-                    <div class="row-entry role">Role 4 <button class="btn__edit--role">Edit</button></div>
-                    <div class="row-entry role">Role 5 <button class="btn__edit--role">Edit</button></div>
-                    <div class="row-entry role">Role 6 <button class="btn__edit--role">Edit</button></div>
-                    <div class="row-entry role">Role 7 <button class="btn__edit--role">Edit</button></div>
-                    <div class="row-entry role">Role 8 <button class="btn__edit--role">Edit</button></div>
+                    <div class="row-entry role" v-for="user in users">
+                        {{ user.role }} <button class="btn__edit--role">Edit</button>
+                    </div>
                 </div>
             </div>
         </div>
         <button class="btn__add--user">Add new user</button>
+        <ModalUser></ModalUser>
     </div>
   </div>
 </template>
 
 <script>
+import ModalUser from '@/components/ModalUser.vue';
 export default {
   name: 'ManageAccount',
+  components: {
+      ModalUser: ModalUser
+  },
   data() {
       return {
-
+        users: [
+            {name: 'Jaenudin', email: 'jaenudin@gmail.com', insitusi: 'pemprov', role:'Admin'},
+            {name: 'Adel', email: 'adel@gmail.com', insitusi: 'bapeda', role:'editor'},
+            {name: 'Brokoli', email: 'brokoli@gmail.com', insitusi: 'bpjs', role:'editor'},
+            {name: 'Meganus', email: 'meganus@gmail.com', insitusi: 'perda', role:'editor'},
+            {name: 'Charlotte', email: 'charlotte@gmail.com', insitusi: 'bpk', role:'editor'},
+            {name: 'Kokoro', email: 'kokoro@gmail.com', insitusi: 'kpk', role:'editor'},
+            {name: 'No Tomo', email: 'no-tomo@gmail.com', insitusi: 'lpm', role:'editor'},
+            {name: 'Brigadir', email: 'brigadir@gmail.com', insitusi: 'BI', role:'editor'},
+        ]
       }
   },
 };
