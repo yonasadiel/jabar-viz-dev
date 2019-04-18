@@ -1,17 +1,13 @@
 <template>
   <div>
-    <Navbar></Navbar>
-    <Chart></Chart>
+    <h1>Edit Data Page</h1>
   </div>
 </template>
 
 <script>
-import Chart from '@/components/Chart.vue';
-
 export default {
-  name: 'home',
+  name: 'Edit_Data',
   components: {
-    Chart,
   },
 };
 </script>
