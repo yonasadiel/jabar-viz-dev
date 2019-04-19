@@ -23,6 +23,6 @@ test:
     - cd viz-dev-backend
     - touch database/database.sqlite
     - cp .env.test .env
-    - composer update
+    - composer install
     - php artisan key:generate
     - vendor/phpunit/phpunit/phpunit --verbose
