@@ -3,6 +3,8 @@
     <Navbar></Navbar>
     <div class="container">
         <h1 class="title">JABAR DATA VISUALIZATION EDITING CENTER</h1>
+        <button class="btn__add" @click="displayAddData">Add new data</button>
+        <ModalAddData v-if="showAddData" @close="showAddData = false"></ModalAddData>
         <div class="container__data">
             <div class="btn__data" v-for="content in contents" @click="redirectPage(content.name)">
               {{ content.name }}
@@ -13,9 +15,11 @@
 </template>
 
 <script>
+import ModalAddData from '@/components/ModalAddData.vue';
 export default {
   name: 'Edit',
   components: {
+    ModalAddData: ModalAddData
   },
   data(){
     return{
@@ -45,12 +49,16 @@ export default {
         {name: 'Tingkat Pengangguran Terbuka (P/L) (Jiwa)'},
         {name: 'Industri Besar'},
         {name: 'Industri Kecil'},
-      ]
+      ],
+      showAddData: false
     }
   },
   methods: {
     redirectPage: function (content) {
       this.$router.push({path:'edit_data', query: { data: content }});
+    },
+    displayAddData: function() {
+        this.showAddData = true;
     }
   }
 };
@@ -89,6 +97,18 @@ export default {
     transition: transform .5s ease;
     transform: scale(1);
     box-shadow: 2px 2px 8px 2px rgba(0, 0, 0, .2);
+}
+
+.btn__add{
+    border: 0;
+    background-color: rgba(6, 116, 210, 1);
+    border-radius: 5px;
+    box-shadow: 2px 2px 8px 2px rgba(0, 0, 0, .2);
+    padding: 10px 15px;
+    cursor: pointer;
+    font-weight: 600;
+    margin: 10px 0;
+    color: white;
 }
 
 
