@@ -1,0 +1,32 @@
+@import '../base';
+
+.table {
+    border-bottom: 1px solid $table-border;
+    border-left: 1px solid $table-border;
+    border-right: 1px solid $table-border;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+
+    .table-row {
+        display: flex;
+        flex-direction: row;
+
+        .table-cell {
+            border-top: 1px solid $table-border;
+            padding: 5px 15px;
+            height: $table-cell-height;
+            display: flex;
+            align-items: center;
+        }
+
+        .table-cell.center {
+            justify-content: center;
+        }
+    }
+
+    .table-row.table-header {
+        background-color: $table-header-background;
+        font-weight: 700;
+    }
+}

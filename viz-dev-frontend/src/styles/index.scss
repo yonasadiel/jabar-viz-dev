@@ -1,0 +1,36 @@
+@import './base';
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+#app {
+    color: $black;
+    font-family: $primary-font;
+    font-size: $text-md;
+}
+
+*:focus {
+    outline: none;
+}
+
+// button
+
+.btn {
+    font-family: inherit;
+    border: 0;
+    background-color: $primary-light;
+    border-radius: 5px;
+    box-shadow: 2px 2px 6px 2px rgba(0, 0, 0, .05);
+    padding: 10px 15px;
+    margin: 10px 10px;
+    color: white;
+    animation: all 1s ease;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: $primary;
+    animation: all 1s ease;
+}

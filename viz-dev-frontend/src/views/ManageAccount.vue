@@ -1,167 +1,112 @@
 <template>
   <div>
-    <Navbar></Navbar>
-    <h1 class="title">Jabar Viz Dev Account Management</h1>
-    <div class="container__edit">
-        <div class="header">
-            <h3>Manage Users</h3>
-        </div>
-        <div class="container__table">
-            <div class="flex-row">
-                <div class="flex-col col-header">
-                    <div class="row-header">User</div>
-                    <div class="row-entry user" v-for="user in users" @click="displayModalUser">
-                        {{ user.name }}
-                    </div>
-                    <ModalUser v-if="showModalUser" @close="showModalUser = false"></ModalUser>
-                </div>
-                <div class="flex-col col-entry">
-                    <div class="row-header">Role</div>
-                    <div class="row-entry role" v-for="user in users">
-                        {{ user.role }} <button class="btn__edit--role" @click="displayModalRole">Edit</button>
-                    </div>
-                    <ModalEditRole v-if="showModalRole" @close="showModalRole = false"></ModalEditRole>
+    <Navbar />
+    <div class="container" >
+        <h1 class="title">Manajemen Akun</h1>
+        <button class="btn add-user">Tambah akun</button>
+        <ModalEditRole
+            v-bind="modalEditRoleProps"
+            v-if="showModalUserEdit"
+            @modalClosed="toggleModalUserEdit" />
+        <div class="table">
+            <div class="table-row table-header">
+                <div class="table-cell flex-1">User</div>
+                <div class="table-cell center role">Role</div>
+                <div class="table-cell center action">Aksi</div>
+            </div>
+            <div class="table-row" v-for="user in users" v-bind:key="user.username">
+                <div class="table-cell flex-1">{{user.username}}</div>
+                <div class="table-cell center role">{{user.role}}</div>
+                <div class="table-cell center action">
+                    <button class="btn " @click="toggleModalUserEdit">Ubah</button>
+                    <button class="btn danger" @click="toggleModalUserEdit">Hapus</button>
                 </div>
             </div>
         </div>
-        <button class="btn__add--user">Add new user</button>
     </div>
   </div>
 </template>
 
 <script>
-import ModalUser from '@/components/ModalUser.vue';
-import ModalEditRole from '@/components/ModalEditRole.vue';
-export default {
-  name: 'ManageAccount',
-  components: {
-      ModalUser: ModalUser,
-      ModalEditRole: ModalEditRole
+import ModalEditRole from '@/components/ModalUserEdit.vue';
+
+const mockUsers = [
+  {
+    username: 'Jaenudin', email: 'jaenudin@gmail.com', insitusi: 'pemprov', role: 'Admin',
   },
-  data() {
-      return {
-        users: [
-            {name: 'Jaenudin', email: 'jaenudin@gmail.com', insitusi: 'pemprov', role:'Admin'},
-            {name: 'Adel', email: 'adel@gmail.com', insitusi: 'bapeda', role:'editor'},
-            {name: 'Brokoli', email: 'brokoli@gmail.com', insitusi: 'bpjs', role:'editor'},
-            {name: 'Meganus', email: 'meganus@gmail.com', insitusi: 'perda', role:'editor'},
-            {name: 'Charlotte', email: 'charlotte@gmail.com', insitusi: 'bpk', role:'editor'},
-            {name: 'Kokoro', email: 'kokoro@gmail.com', insitusi: 'kpk', role:'editor'},
-            {name: 'No Tomo', email: 'no-tomo@gmail.com', insitusi: 'lpm', role:'editor'},
-            {name: 'Brigadir', email: 'brigadir@gmail.com', insitusi: 'BI', role:'editor'},
-        ],
-        showModalUser: false,
-        showModalRole: false
-      }
+  {
+    username: 'Adel', email: 'adel@gmail.com', insitusi: 'bapeda', role: 'editor',
+  },
+  {
+    username: 'Brokoli', email: 'brokoli@gmail.com', insitusi: 'bpjs', role: 'editor',
+  },
+  {
+    username: 'Meganus', email: 'meganus@gmail.com', insitusi: 'perda', role: 'editor',
+  },
+  {
+    username: 'Charlotte', email: 'charlotte@gmail.com', insitusi: 'bpk', role: 'editor',
+  },
+  {
+    username: 'Kokoro', email: 'kokoro@gmail.com', insitusi: 'kpk', role: 'editor',
+  },
+  {
+    username: 'No Tomo', email: 'no-tomo@gmail.com', insitusi: 'lpm', role: 'editor',
+  },
+  {
+    username: 'Brigadir', email: 'brigadir@gmail.com', insitusi: 'BI', role: 'editor',
+  },
+];
+
+export default {
+  username: 'ManageAccount',
+  components: {
+    ModalEditRole,
   },
   methods: {
-      displayModalUser: function() {
-          this.showModalUser = true;
+    toggleModalUserEdit() {
+      this.showModalUserEdit = !this.showModalUserEdit;
+    },
+  },
+  data() {
+    return {
+      users: mockUsers,
+      showModalUser: false,
+      showModalUserEdit: false,
+      modalEditRoleProps: {
+        user: mockUsers[0],
       },
-      displayModalRole: function() {
-          this.showModalRole = true;
-      }
-  }
+    };
+  },
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import '../styles/components/table';
+
 .title {
     text-align: center;
+    margin: 1.5em 0;
 }
 
-.container__edit {
-    padding: 15px 220px;
+.btn.add-user {
+    margin-left: 0;
 }
 
-.container__table {
-    border: 1px solid rgba(0, 0, 0, 0.1);
-}
+.table-cell.role { width: 100px; }
+.table-cell.action {
+    width: 170px;
 
-.btn__add--user {
-    float: right;
-    border: 0;
-    background-color: rgba(6, 116, 210, 1);
-    border-radius: 5px;
-    box-shadow: 2px 2px 8px 2px rgba(0, 0, 0, .2);
-    padding: 10px 15px;
-    cursor: pointer;
-    font-weight: 600;
-    margin: 10px 0;
-    color: white;
-}
+    .btn {
+        padding: 5px 10px;
+    }
 
-.btn__add--user:hover {
-    background-color: rgb(10, 84, 150);
-    transform: scale(1.1);
-}
+    .btn.danger {
+        background-color: rgba(250, 100, 100, 1);
+    }
 
-.btn__edit--role {
-    float: right;
-    border: 0; 
-    background-color: skyblue;
-    border-radius: 5px;
-    color: white;
-    font-weight: 600;
-    cursor: pointer;
-    padding: 5px 20px;
-}
-
-.btn__edit--role:hover {
-    background-color: rgba(6, 116, 210, 1);
-}
-
-.flex-row {
-    display: flex;
-    flex-direction: row;
-}
-
-.flex-col {
-    display: flex;
-    flex-direction: column;
-}
-
-.row-header {
-    font-weight: 600;
-    height: 40px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, .1);
-}
-
-.col-header {
-    flex: 1 1;
-}
-
-.row-entry {
-    height: 40px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.user {
-    cursor: pointer;
-}
-
-.user:hover {
-    background-color: rgba(0, 0, 0, .05);
-    font-weight: 600;
-}
-
-.role {
-    display: inline-block;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-
-.col-entry {
-    flex: 0 0;
-    flex-basis: 150px;
+    .btn.danger:hover {
+        background-color: rgba(250, 40, 40, 1);
+    }
 }
 
 </style>
