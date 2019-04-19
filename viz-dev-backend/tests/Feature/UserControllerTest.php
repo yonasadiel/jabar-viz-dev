@@ -11,7 +11,7 @@ class UserControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $api = '/api/v1/users/';
+    private $base_api = '/api/v1/users/';
     private $admin_user = null;
     private $pemprov_user = null;
     private $dinas_user = null;
@@ -24,8 +24,38 @@ class UserControllerTest extends TestCase
         $this->dinas_user = User::where('role', 'dinas')->first();
     }
 
+    public function testGetUsers()
+    {
+        $api = $this->base_api;
+        $response = $this->actingAs($this->admin_user)->json('GET', $api);
+        $response->assertStatus(200);
+        $response->assertJsonCount(User::count());
+
+        $users = $response->json();
+        foreach ($users as $user) {
+            $this->assertArrayHasKey('id', $user);
+            $this->assertArrayHasKey('username', $user);
+            $this->assertArrayHasKey('email', $user);
+            $this->assertArrayHasKey('role', $user);
+            $this->assertArrayNotHasKey('password', $user);
+            $this->assertArrayNotHasKey('created_at', $user);
+            $this->assertArrayNotHasKey('updated_at', $user);
+        }
+    }
+
+    public function testGetFailedNotAuthorized()
+    {
+        $api = $this->base_api;
+        $response = $this->actingAs($this->pemprov_user)->json('GET', $api);
+        $response->assertStatus(401);
+
+        $err = $response->json();
+        $this->assertEquals($err['code'], 'NOT_AUTHORIZED');
+    }
+
     public function testAddUserSuccess()
     {
+        $api = $this->base_api;
         $new_user = [
             'username' => 'usertest',
             'password' => 'randompass',
@@ -33,7 +63,7 @@ class UserControllerTest extends TestCase
             'role' => User::ROLE_ADMIN,
         ];
 
-        $response = $this->actingAs($this->admin_user)->json('POST', $this->api, $new_user);
+        $response = $this->actingAs($this->admin_user)->json('POST', $api, $new_user);
         $response->assertStatus(201);
 
         $user_json = $response->json();
@@ -48,13 +78,14 @@ class UserControllerTest extends TestCase
 
     public function testAddUserSuccessMissingRole()
     {
+        $api = $this->base_api;
         $new_user = [
             'username' => 'usertest',
             'password' => 'randompass',
             'email' => 'email@example.com',
         ];
 
-        $response = $this->actingAs($this->admin_user)->json('POST', $this->api, $new_user);
+        $response = $this->actingAs($this->admin_user)->json('POST', $api, $new_user);
         $response->assertStatus(201);
 
         $user = $response->json();
@@ -65,13 +96,14 @@ class UserControllerTest extends TestCase
 
     public function testAddUserFailedUsernameAlreadyTaken()
     {
+        $api = $this->base_api;
         $new_user = [
             'username' => 'admin',
             'password' => 'randompass',
             'email' => 'email@example.com',
         ];
 
-        $response = $this->actingAs($this->admin_user)->json('POST', $this->api, $new_user);
+        $response = $this->actingAs($this->admin_user)->json('POST', $api, $new_user);
         $response->assertStatus(400);
 
         $err = $response->json();
@@ -80,12 +112,13 @@ class UserControllerTest extends TestCase
 
     public function testAddUserFailedMissingUsername()
     {
+        $api = $this->base_api;
         $new_user = [
             'password' => 'randompass',
             'email' => 'email@example.com',
         ];
 
-        $response = $this->actingAs($this->admin_user)->json('POST', $this->api, $new_user);
+        $response = $this->actingAs($this->admin_user)->json('POST', $api, $new_user);
         $response->assertStatus(400);
 
         $err = $response->json();
@@ -94,12 +127,13 @@ class UserControllerTest extends TestCase
 
     public function testAddUserFailedMissingPassword()
     {
+        $api = $this->base_api;
         $new_user = [
             'username' => 'usertest',
             'email' => 'email@example.com',
         ];
 
-        $response = $this->actingAs($this->admin_user)->json('POST', $this->api, $new_user);
+        $response = $this->actingAs($this->admin_user)->json('POST', $api, $new_user);
         $response->assertStatus(400);
 
         $err = $response->json();
@@ -108,12 +142,13 @@ class UserControllerTest extends TestCase
 
     public function testAddUserFailedMissingEmail()
     {
+        $api = $this->base_api;
         $new_user = [
             'username' => 'admin',
             'password' => 'randompass',
         ];
 
-        $response = $this->actingAs($this->admin_user)->json('POST', $this->api, $new_user);
+        $response = $this->actingAs($this->admin_user)->json('POST', $api, $new_user);
         $response->assertStatus(400);
 
         $err = $response->json();
@@ -122,13 +157,14 @@ class UserControllerTest extends TestCase
 
     public function testAddUserAsPemprovUserFailed()
     {
+        $api = $this->base_api;
         $new_user = [
             'username' => 'usertest',
             'password' => 'randompass',
             'email' => 'email@example.com',
         ];
 
-        $response = $this->actingAs($this->pemprov_user)->json('POST', $this->api, $new_user);
+        $response = $this->actingAs($this->pemprov_user)->json('POST', $api, $new_user);
         $response->assertStatus(401);
 
         $err = $response->json();
@@ -137,13 +173,14 @@ class UserControllerTest extends TestCase
 
     public function testAddUserAsDinasUserFailed()
     {
+        $api = $this->base_api;
         $new_user = [
             'username' => 'usertest',
             'password' => 'randompass',
             'email' => 'email@example.com',
         ];
 
-        $response = $this->actingAs($this->dinas_user)->json('POST', $this->api, $new_user);
+        $response = $this->actingAs($this->dinas_user)->json('POST', $api, $new_user);
         $response->assertStatus(401);
 
         $err = $response->json();

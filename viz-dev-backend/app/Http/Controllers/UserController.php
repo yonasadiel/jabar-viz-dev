@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    public static function index(Request $reuqest) {
+        return response(User::all(), 200);
+    }
+
     public static function store(Request $request) {
         if (!$request->input('username')) {
             return response([
