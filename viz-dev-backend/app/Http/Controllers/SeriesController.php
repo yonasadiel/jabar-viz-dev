@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class SeriesController extends Controller
 {
     public static function index(Request $request) {
-        return Series::all();
+        return response(Series::all(), 200);
     }
 
     public static function show(Request $request, $id) {

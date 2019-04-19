@@ -48,7 +48,7 @@ class EntryController extends Controller
             }
         }
 
-        return response(join("\n", $csv_rows), 200);
+        return response(join("\n", $csv_rows), 200)->header('Content-Type', 'text/csv');;
     }
 
     public static function index(Request $request, $series_id) {

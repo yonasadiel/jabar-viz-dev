@@ -38,6 +38,12 @@ Route::prefix('v1')->group(function () {
         Route::post('series/{series_id}/city/{cities_id}/year/{year}/entry', 'EntryController@upsert');
         Route::patch('series/{series_id}/city/{cities_id}/year/{year}/entry', 'EntryController@upsert');
 
-        Route::middleware('admin')->post('users', 'UserController@store');
+        Route::middleware('admin')->group(function() {
+            Route::get('users', 'UserController@index');
+            Route::post('users', 'UserController@store');
+            Route::put('users/{id}', 'UserController@update');
+            Route::patch('users/{id}', 'UserController@update');
+            Route::delete('users/{id}', 'UserController@destroy');
+        });
     });
 });
