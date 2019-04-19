@@ -58,4 +58,31 @@ class UserController extends Controller
 
         return response($user->toJson(), 201);
     }
+
+    public static function update(Request $request, $id) {
+        $user = User::find($id);
+        if ($user) {
+            if ($request->input('username') !== $user->username && User::where('username', $request->input('username'))->count() > 0) {
+                return response([
+                    'code' => 'USERNAME_ALREADY_TAKEN',
+                    'message' => 'Username has already taken',
+                ], 400);
+            }
+
+            $user->username = $request->input('username') ? : $user->username;
+            $user->email = $request->input('email') ? : $user->email;
+            $user->role = $request->input('role') ? : $user->role;
+            if ($request->input('password')) {
+                $user->password = Hash::make($request->input('password'));
+            }
+            $user->save();
+
+            return $user;
+        } else {
+            return response([
+                'code' => 'USER_NOT_FOUND',
+                'message' => 'User requested is not found',
+            ], 404);
+        }
+    }
 }

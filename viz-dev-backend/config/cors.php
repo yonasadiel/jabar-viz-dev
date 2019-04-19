@@ -20,7 +20,7 @@ return [
     'allowedOriginsPatterns' => [],
     'allowedHeaders' => ['*'],
     'allowedMethods' => [
-        'GET', 'POST', 'PUT', 'DELETE', 'HEAD', 'OPTIONS',
+        'GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS',
     ],
     'exposedHeaders' => [],
     'maxAge' => 0,

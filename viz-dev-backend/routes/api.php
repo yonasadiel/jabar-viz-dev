@@ -41,6 +41,8 @@ Route::prefix('v1')->group(function () {
         Route::middleware('admin')->group(function() {
             Route::get('users', 'UserController@index');
             Route::post('users', 'UserController@store');
+            Route::put('users/{id}', 'UserController@update');
+            Route::patch('users/{id}', 'UserController@update');
         });
     });
 });

@@ -186,4 +186,116 @@ class UserControllerTest extends TestCase
         $err = $response->json();
         $this->assertEquals($err['code'], 'NOT_AUTHORIZED');
     }
+
+    public function testUpdateUserSuccess()
+    {
+        $api = $this->base_api . '1';
+        $new_user = [
+            'username' => 'admin1',
+            'password' => 'passadmin1',
+            'email' => 'admin1@gmail.com',
+            'role' => User::ROLE_DINAS,
+        ];
+
+        $response = $this->actingAs($this->admin_user)->json('PATCH', $api, $new_user);
+        $response->assertStatus(200);
+
+        $user = User::find(1);
+        $retrieved_user = $response->json();
+        $this->assertEquals($retrieved_user['username'], $new_user['username']);
+        $this->assertEquals($retrieved_user['email'], $new_user['email']);
+        $this->assertEquals($retrieved_user['role'], $new_user['role']);
+        $this->assertTrue(Auth::attempt([
+            'username' => $new_user['username'],
+            'password' => $new_user['password'],
+        ]));
+        $this->assertEquals($user->username, $new_user['username']);
+        $this->assertEquals($user->email, $new_user['email']);
+        $this->assertEquals($user->role, $new_user['role']);
+    }
+
+    public function testUpdateUserFailedNotAuthorized()
+    {
+        $api = $this->base_api . '1';
+        $new_user = [
+            'username' => 'admin1',
+            'password' => 'passadmin1',
+            'email' => 'admin1@gmail.com',
+            'role' => User::ROLE_DINAS,
+        ];
+
+        $response = $this->actingAs($this->pemprov_user)->json('PATCH', $api, $new_user);
+        $response->assertStatus(401);
+
+        $err = $response->json();
+        $this->assertEquals($err['code'], 'NOT_AUTHORIZED');
+    }
+
+    public function testUpdateUserFailedNotFound()
+    {
+        $api = $this->base_api . '170845';
+        $new_user = [
+            'username' => 'admin1',
+            'password' => 'passadmin1',
+            'email' => 'admin1@gmail.com',
+            'role' => User::ROLE_DINAS,
+        ];
+
+        $response = $this->actingAs($this->admin_user)->json('PATCH', $api, $new_user);
+        $response->assertStatus(404);
+
+        $err = $response->json();
+        $this->assertEquals($err['code'], 'USER_NOT_FOUND');
+    }
+
+    public function testUpdateUserFailedUsernameTaken()
+    {
+        $api = $this->base_api . '1';
+        $new_user = [
+            'username' => 'dinas',
+            'password' => 'passadmin1',
+            'email' => 'admin1@gmail.com',
+            'role' => User::ROLE_DINAS,
+        ];
+
+        $response = $this->actingAs($this->admin_user)->json('PATCH', $api, $new_user);
+        $response->assertStatus(400);
+
+        $err = $response->json();
+        $this->assertEquals($err['code'], 'USERNAME_ALREADY_TAKEN');
+    }
+
+    public function testUpdateUserSuccessOnlyRole()
+    {
+        $api = $this->base_api . '1';
+        $new_user = [
+            'role' => User::ROLE_DINAS,
+        ];
+        $user = User::find(1);
+
+        $response = $this->actingAs($this->admin_user)->json('PATCH', $api, $new_user);
+        $response->assertStatus(200);
+
+        $retrieved_user = $response->json();
+        $this->assertEquals($retrieved_user['username'], $user->username);
+        $this->assertEquals($retrieved_user['email'], $user->email);
+        $this->assertEquals($retrieved_user['role'], $new_user['role']);
+    }
+
+    public function testUpdateUserSuccessSameUsername()
+    {
+        $api = $this->base_api . '1';
+        $new_user = [
+            'username' => 'admin',
+            'password' => 'passadmin1',
+            'email' => 'admin1@gmail.com',
+            'role' => User::ROLE_DINAS,
+        ];
+
+        $response = $this->actingAs($this->admin_user)->json('PATCH', $api, $new_user);
+        $response->assertStatus(200);
+
+        $retrieved_user = $response->json();
+        $this->assertEquals($retrieved_user['username'], $new_user['username']);
+    }
 }
