@@ -1,0 +1,15 @@
+@import '../base';
+
+input[type=text], input[type=email], input[type=password] {
+    border: 0;
+    border-bottom: 1px solid $black;
+    font-family: $primary-font;
+    font-size: $text-md;
+}
+
+select {
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 2px;
+    padding: 3px;
+}

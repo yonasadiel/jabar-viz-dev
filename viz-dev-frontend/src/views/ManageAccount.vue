@@ -1,167 +1,151 @@
 <template>
   <div>
-    <Navbar></Navbar>
-    <h1 class="title">Jabar Viz Dev Account Management</h1>
-    <div class="container__edit">
-        <div class="header">
-            <h3>Manage Users</h3>
+    <Navbar />
+    <div class="d-flex flex-column align-items-center container" >
+      <h1 class="title">Manajemen User</h1>
+      <button
+        class="btn add-user align-self-start"
+        v-on:click="toggleModalUserCreate">
+          Tambah User
+      </button>
+      <Loader v-if="isLoadingUser"/>
+      <ModalUserCreate
+        v-if="showModalUserCreate"
+        @modalClosed="toggleModalUserCreate" />
+      <ModalUserEdit
+        v-bind="propsModalUserEdit"
+        v-if="showModalUserEdit"
+        @modalClosed="toggleModalUserEdit" />
+      <div class="table" v-if="!isLoadingUser">
+        <div class="table-row table-header">
+          <div class="table-cell flex-1 username">User</div>
+          <div class="table-cell flex-2 email">Email</div>
+          <div class="table-cell flex-0 center role">Role</div>
+          <div class="table-cell flex-0 center action">Aksi</div>
         </div>
-        <div class="container__table">
-            <div class="flex-row">
-                <div class="flex-col col-header">
-                    <div class="row-header">User</div>
-                    <div class="row-entry user" v-for="user in users" @click="displayModalUser">
-                        {{ user.name }}
-                    </div>
-                    <ModalUser v-if="showModalUser" @close="showModalUser = false"></ModalUser>
-                </div>
-                <div class="flex-col col-entry">
-                    <div class="row-header">Role</div>
-                    <div class="row-entry role" v-for="user in users">
-                        {{ user.role }} <button class="btn__edit--role" @click="displayModalRole">Edit</button>
-                    </div>
-                    <ModalEditRole v-if="showModalRole" @close="showModalRole = false"></ModalEditRole>
-                </div>
-            </div>
+        <div class="table-row" v-for="user in users" v-bind:key="user.username">
+          <div class="table-cell flex-1 username">{{user.username}}</div>
+          <div class="table-cell flex-2 email">{{user.email}}</div>
+          <div class="table-cell flex-0 center role">{{user.role}}</div>
+          <div class="table-cell flex-0 center action">
+            <button class="btn" v-on:click="toggleModalUserEdit(user.id)">Ubah</button>
+            <button class="btn danger" v-on:click="deleteUser(user.id)">Hapus</button>
+          </div>
         </div>
-        <button class="btn__add--user">Add new user</button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import ModalUser from '@/components/ModalUser.vue';
-import ModalEditRole from '@/components/ModalEditRole.vue';
+import api from '@/api';
+import Loader from '@/components/Loader.vue';
+import ModalUserCreate from '@/components/ModalUserCreate.vue';
+import ModalUserEdit from '@/components/ModalUserEdit.vue';
+
 export default {
-  name: 'ManageAccount',
+  username: 'ManageAccount',
   components: {
-      ModalUser: ModalUser,
-      ModalEditRole: ModalEditRole
+    Loader,
+    ModalUserCreate,
+    ModalUserEdit,
   },
-  data() {
-      return {
-        users: [
-            {name: 'Jaenudin', email: 'jaenudin@gmail.com', insitusi: 'pemprov', role:'Admin'},
-            {name: 'Adel', email: 'adel@gmail.com', insitusi: 'bapeda', role:'editor'},
-            {name: 'Brokoli', email: 'brokoli@gmail.com', insitusi: 'bpjs', role:'editor'},
-            {name: 'Meganus', email: 'meganus@gmail.com', insitusi: 'perda', role:'editor'},
-            {name: 'Charlotte', email: 'charlotte@gmail.com', insitusi: 'bpk', role:'editor'},
-            {name: 'Kokoro', email: 'kokoro@gmail.com', insitusi: 'kpk', role:'editor'},
-            {name: 'No Tomo', email: 'no-tomo@gmail.com', insitusi: 'lpm', role:'editor'},
-            {name: 'Brigadir', email: 'brigadir@gmail.com', insitusi: 'BI', role:'editor'},
-        ],
-        showModalUser: false,
-        showModalRole: false
-      }
+  created() {
+    // TODO: delete this after login page is done
+    api.post('/login', {
+      username: 'admin',
+      password: 'vizdevadmin4992',
+    }).then(() => {
+      this.retrieveUser();
+    });
   },
   methods: {
-      displayModalUser: function() {
-          this.showModalUser = true;
-      },
-      displayModalRole: function() {
-          this.showModalRole = true;
+    retrieveUser() {
+      this.isLoadingUser = true;
+      api.get('/users').then((res) => {
+        this.users = res.data;
+        this.isLoadingUser = false;
+      });
+    },
+    toggleModalUserCreate() {
+      if (this.showModalUserCreate) {
+        // update user list after editing
+        this.retrieveUser();
       }
-  }
+
+      this.showModalUserCreate = !this.showModalUserCreate;
+    },
+    toggleModalUserEdit(userId) {
+      if (this.showModalUserEdit) {
+        // update user list after editing
+        this.retrieveUser();
+      } else {
+        // pass user to modal
+        for (let i = 0; i < this.users.length; i += 1) {
+          if (this.users[i].id === userId) {
+            this.propsModalUserEdit.user = this.users[i];
+          }
+        }
+      }
+
+      this.showModalUserEdit = !this.showModalUserEdit;
+    },
+    deleteUser(userId) {
+      /* eslint-disable no-restricted-globals */
+      /* eslint-disable no-alert */
+      if (confirm('yakin hapus user ini?')) {
+        api.delete(`/users/${userId}`).then(() => {
+          this.retrieveUser();
+        });
+      }
+    },
+  },
+  data() {
+    return {
+      users: [],
+      isLoadingUser: true,
+      showModalUserEdit: false,
+      showModalUserCreate: false,
+      propsModalUserEdit: {
+        user: null,
+      },
+    };
+  },
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import '../styles/components/table';
+
 .title {
     text-align: center;
+    margin: 1.5em 0;
 }
 
-.container__edit {
-    padding: 15px 220px;
+.btn.add-user {
+    margin-left: 0;
 }
 
-.container__table {
-    border: 1px solid rgba(0, 0, 0, 0.1);
-}
+.table {
+  width: 100%;
+  .table-cell.username { flex-basis: 100px; }
+  .table-cell.email { flex-basis: 250px; }
+  .table-cell.role { flex-basis: 100px; }
+  .table-cell.action {
+    flex-basis: 170px;
 
-.btn__add--user {
-    float: right;
-    border: 0;
-    background-color: rgba(6, 116, 210, 1);
-    border-radius: 5px;
-    box-shadow: 2px 2px 8px 2px rgba(0, 0, 0, .2);
-    padding: 10px 15px;
-    cursor: pointer;
-    font-weight: 600;
-    margin: 10px 0;
-    color: white;
-}
+    .btn {
+      padding: 5px 10px;
+    }
 
-.btn__add--user:hover {
-    background-color: rgb(10, 84, 150);
-    transform: scale(1.1);
-}
+    .btn.danger {
+      background-color: rgba(250, 100, 100, 1);
+    }
 
-.btn__edit--role {
-    float: right;
-    border: 0; 
-    background-color: skyblue;
-    border-radius: 5px;
-    color: white;
-    font-weight: 600;
-    cursor: pointer;
-    padding: 5px 20px;
-}
-
-.btn__edit--role:hover {
-    background-color: rgba(6, 116, 210, 1);
-}
-
-.flex-row {
-    display: flex;
-    flex-direction: row;
-}
-
-.flex-col {
-    display: flex;
-    flex-direction: column;
-}
-
-.row-header {
-    font-weight: 600;
-    height: 40px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, .1);
-}
-
-.col-header {
-    flex: 1 1;
-}
-
-.row-entry {
-    height: 40px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.user {
-    cursor: pointer;
-}
-
-.user:hover {
-    background-color: rgba(0, 0, 0, .05);
-    font-weight: 600;
-}
-
-.role {
-    display: inline-block;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-
-.col-entry {
-    flex: 0 0;
-    flex-basis: 150px;
+    .btn.danger:hover {
+      background-color: rgba(250, 40, 40, 1);
+    }
+  }
 }
 
 </style>
