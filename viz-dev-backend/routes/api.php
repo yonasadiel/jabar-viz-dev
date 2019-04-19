@@ -43,6 +43,7 @@ Route::prefix('v1')->group(function () {
             Route::post('users', 'UserController@store');
             Route::put('users/{id}', 'UserController@update');
             Route::patch('users/{id}', 'UserController@update');
+            Route::delete('users/{id}', 'UserController@destroy');
         });
     });
 });

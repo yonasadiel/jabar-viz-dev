@@ -298,4 +298,41 @@ class UserControllerTest extends TestCase
         $retrieved_user = $response->json();
         $this->assertEquals($retrieved_user['username'], $new_user['username']);
     }
+
+    public function testDeleteUserSuccess()
+    {
+        $deleted_user = User::first();
+        $api = $this->base_api . $deleted_user->id;
+
+        $response = $this->actingAs($this->admin_user)->json('DELETE', $api);
+        $response->assertStatus(200);
+
+        $user = $response->json();
+        $this->assertEquals($deleted_user['username'], $user['username']);
+
+        $this->assertEquals(2, User::count());
+    }
+
+    public function testDeleteUserFailedNotAuthorized()
+    {
+        $deleted_user = User::first();
+        $api = $this->base_api . $deleted_user->id;
+
+        $response = $this->actingAs($this->pemprov_user)->json('DELETE', $api);
+        $response->assertStatus(401);
+
+        $err = $response->json();
+        $this->assertEquals($err['code'], 'NOT_AUTHORIZED');
+    }
+
+    public function testDeleteUserFailedNotFound()
+    {
+        $api = $this->base_api . '170845';
+
+        $response = $this->actingAs($this->admin_user)->json('DELETE', $api);
+        $response->assertStatus(404);
+
+        $err = $response->json();
+        $this->assertEquals($err['code'], 'USER_NOT_FOUND');
+    }
 }

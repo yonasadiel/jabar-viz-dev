@@ -85,4 +85,17 @@ class UserController extends Controller
             ], 404);
         }
     }
+
+    public static function destroy(Request $request, $id) {
+        $user = User::find($id);
+        if ($user) {
+            $user->delete();
+            return $user;
+        } else {
+            return response([
+                'code' => 'USER_NOT_FOUND',
+                'message' => 'User requested is not found',
+            ], 404);
+        }
+    }
 }
