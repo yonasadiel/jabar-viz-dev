@@ -2,8 +2,8 @@
   <div>
     <Navbar />
     <div class="container" >
-        <h1 class="title">Manajemen Akun</h1>
-        <button class="btn add-user">Tambah akun</button>
+        <h1 class="title">Manajemen User</h1>
+        <button class="btn add-user">Tambah User</button>
         <ModalEditRole
             v-bind="modalEditRoleProps"
             v-if="showModalUserEdit"
@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import api from '@/api';
 import ModalEditRole from '@/components/ModalUserEdit.vue';
 
 const mockUsers = [
@@ -61,6 +62,15 @@ export default {
   username: 'ManageAccount',
   components: {
     ModalEditRole,
+  },
+  created() {
+    api.post('/login', {
+      username: 'admin',
+      password: 'vizdevadmin4992',
+    });
+    api.get('/users').then((res) => {
+      console.log(res);
+    });
   },
   methods: {
     toggleModalUserEdit() {
