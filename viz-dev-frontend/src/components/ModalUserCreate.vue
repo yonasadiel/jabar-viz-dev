@@ -4,11 +4,12 @@
     <div class="modal-content">
       <span class="close" v-on:click="closeModal">&times;</span>
       <div class="modal-header">
-        <h2>Ubah User</h2>
+        <h2>Buat User</h2>
       </div>
       <div class="modal-body">
         <p> Username: <input type="text" v-model="workingUser.username"></p>
         <p> Email: <input type="email" v-model="workingUser.email"></p>
+        <p> Password: <input type="password" v-model="workingUser.password"></p>
         <p> Role:
           <select v-model="workingUser.role">
             <option value="admin">Admin</option>
@@ -16,6 +17,7 @@
             <option value="dinas">Dinas</option>
           </select>
         </p>
+        <p class="error">{{error}}</p>
         <button class="btn" v-on:click="saveUser">Save</button>
       </div>
     </div>
@@ -27,16 +29,28 @@ import api from '@/api';
 
 export default {
   name: 'ModalEditRole',
-  props: ['user'],
   created() {
-    this.workingUser = Object.assign({}, this.user);
+    this.workingUser.role = 'dinas';
+  },
+  data() {
+    return {
+      workingUser: {
+        username: '',
+        password: '',
+        email: '',
+        role: 'dinas',
+      },
+      error: '',
+    };
   },
   components: {},
   methods: {
     saveUser() {
-      const apiUrl = `/users/${this.workingUser.id}`;
-      api.patch(apiUrl, this.workingUser).then(() => {
+      const apiUrl = '/users';
+      api.post(apiUrl, this.workingUser).then(() => {
         this.closeModal();
+      }).catch((err) => {
+        this.error = err.response.data.message;
       });
     },
     closeModal() {
@@ -52,5 +66,9 @@ export default {
 
 .modal-body p {
   margin-bottom: 1em;
+}
+
+.error {
+  color: red;
 }
 </style>
