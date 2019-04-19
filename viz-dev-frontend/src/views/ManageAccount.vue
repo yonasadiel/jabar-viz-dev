@@ -1,25 +1,28 @@
 <template>
   <div>
     <Navbar />
-    <div class="container" >
+    <div class="d-flex flex-column align-items-center container" >
         <h1 class="title">Manajemen User</h1>
-        <button class="btn add-user">Tambah User</button>
+        <button class="btn add-user align-self-start">Tambah User</button>
+        <Loader v-if="isLoadingUser"/>
         <ModalEditRole
             v-bind="modalEditRoleProps"
             v-if="showModalUserEdit"
             @modalClosed="toggleModalUserEdit" />
-        <div class="table">
+        <div class="table" v-if="!isLoadingUser">
             <div class="table-row table-header">
-                <div class="table-cell flex-1">User</div>
-                <div class="table-cell center role">Role</div>
-                <div class="table-cell center action">Aksi</div>
+                <div class="table-cell flex-1 username">User</div>
+                <div class="table-cell flex-2 email">Email</div>
+                <div class="table-cell flex-0 center role">Role</div>
+                <div class="table-cell flex-0 center action">Aksi</div>
             </div>
             <div class="table-row" v-for="user in users" v-bind:key="user.username">
-                <div class="table-cell flex-1">{{user.username}}</div>
-                <div class="table-cell center role">{{user.role}}</div>
-                <div class="table-cell center action">
-                    <button class="btn " @click="toggleModalUserEdit">Ubah</button>
-                    <button class="btn danger" @click="toggleModalUserEdit">Hapus</button>
+                <div class="table-cell flex-1 username">{{user.username}}</div>
+                <div class="table-cell flex-2 email">{{user.email}}</div>
+                <div class="table-cell flex-0 center role">{{user.role}}</div>
+                <div class="table-cell flex-0 center action">
+                    <button class="btn " @click="toggleModalUserEdit(user.id)">Ubah</button>
+                    <button class="btn danger" @click="toggleModalUserEdit(user.id)">Hapus</button>
                 </div>
             </div>
         </div>
@@ -29,61 +32,55 @@
 
 <script>
 import api from '@/api';
+import Loader from '@/components/Loader.vue';
 import ModalEditRole from '@/components/ModalUserEdit.vue';
-
-const mockUsers = [
-  {
-    username: 'Jaenudin', email: 'jaenudin@gmail.com', insitusi: 'pemprov', role: 'Admin',
-  },
-  {
-    username: 'Adel', email: 'adel@gmail.com', insitusi: 'bapeda', role: 'editor',
-  },
-  {
-    username: 'Brokoli', email: 'brokoli@gmail.com', insitusi: 'bpjs', role: 'editor',
-  },
-  {
-    username: 'Meganus', email: 'meganus@gmail.com', insitusi: 'perda', role: 'editor',
-  },
-  {
-    username: 'Charlotte', email: 'charlotte@gmail.com', insitusi: 'bpk', role: 'editor',
-  },
-  {
-    username: 'Kokoro', email: 'kokoro@gmail.com', insitusi: 'kpk', role: 'editor',
-  },
-  {
-    username: 'No Tomo', email: 'no-tomo@gmail.com', insitusi: 'lpm', role: 'editor',
-  },
-  {
-    username: 'Brigadir', email: 'brigadir@gmail.com', insitusi: 'BI', role: 'editor',
-  },
-];
 
 export default {
   username: 'ManageAccount',
   components: {
+    Loader,
     ModalEditRole,
   },
   created() {
+    // TODO: delete this after login page is done
     api.post('/login', {
       username: 'admin',
       password: 'vizdevadmin4992',
-    });
-    api.get('/users').then((res) => {
-      console.log(res);
+    }).then(() => {
+      this.retrieveUser();
     });
   },
   methods: {
-    toggleModalUserEdit() {
+    retrieveUser() {
+      this.isLoadingUser = true;
+      api.get('/users').then((res) => {
+        this.users = res.data;
+        this.isLoadingUser = false;
+      });
+    },
+    toggleModalUserEdit(userId) {
+      if (this.showModalUserEdit) {
+        // update user list after editing
+        this.retrieveUser();
+      } else {
+        // pass user to modal
+        for (let i = 0; i < this.users.length; i += 1) {
+          if (this.users[i].id === userId) {
+            this.modalEditRoleProps.user = this.users[i];
+          }
+        }
+      }
+
       this.showModalUserEdit = !this.showModalUserEdit;
     },
   },
   data() {
     return {
-      users: mockUsers,
-      showModalUser: false,
+      users: [],
+      isLoadingUser: true,
       showModalUserEdit: false,
       modalEditRoleProps: {
-        user: mockUsers[0],
+        user: null,
       },
     };
   },
@@ -102,9 +99,11 @@ export default {
     margin-left: 0;
 }
 
-.table-cell.role { width: 100px; }
+.table-cell.username { flex-basis: 100px; }
+.table-cell.email { flex-basis: 250px; }
+.table-cell.role { flex-basis: 100px; }
 .table-cell.action {
-    width: 170px;
+    flex-basis: 170px;
 
     .btn {
         padding: 5px 10px;

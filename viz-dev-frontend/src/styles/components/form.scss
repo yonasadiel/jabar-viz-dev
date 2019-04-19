@@ -1,6 +1,6 @@
 @import '../base';
 
-input[type=text] {
+input[type=text], input[type=email] {
     border: 0;
     border-bottom: 1px solid $black;
     font-family: $primary-font;

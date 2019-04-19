@@ -7,28 +7,37 @@
         <h2>Ubah User</h2>
       </div>
       <div class="modal-body">
-        <p> Nama: <input type="text" id="username" v-bind:value="user.username"></p>
+        <p> Nama: <input type="text" v-model="workingUser.username"></p>
+        <p> Email: <input type="email" v-model="workingUser.email"></p>
         <p> Role:
-          <select>
-            <option value="editor">Editor</option>
-            <option value="admin">Admin</option>
+          <select v-model="workingUser.role">
+            <option value="admin">admin</option>
+            <option value="pemprov">pemprov</option>
+            <option value="dinas">dinas</option>
           </select>
         </p>
-        <button class="btn" @click="saveUser">Save</button>
+        <button class="btn" v-on:click="saveUser">Save</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import api from '@/api';
+
 export default {
   name: 'ModalEditRole',
-  props: ['user', 'onClose'],
-  data: () => ({}),
+  props: ['user'],
+  created() {
+    this.workingUser = Object.assign({}, this.user);
+  },
   components: {},
   methods: {
     saveUser() {
-      this.closeModal();
+      const apiUrl = `/users/${this.workingUser.id}`;
+      api.patch(apiUrl, this.workingUser).then(() => {
+        this.closeModal();
+      });
     },
     closeModal() {
       this.$emit('modalClosed');
