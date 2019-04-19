@@ -18,6 +18,14 @@ class EntryCsvControllerTest extends TestCase
         parent::setUp();
     }
 
+    public function testContentType()
+    {
+        $response = $this->get($this->api);
+        $response->assertStatus(200);
+
+        $this->assertContains('text/csv', $response->headers->get('Content-Type'));
+    }
+
     public function testHeader()
     {
         $response = $this->get($this->api);
