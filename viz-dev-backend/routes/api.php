@@ -34,6 +34,8 @@ Route::prefix('v1')->group(function () {
         Route::patch('series/{id}', 'SeriesController@update');
         Route::delete('series/{id}', 'SeriesController@destroy');
 
+        Route::post('series/{series_id}/import', 'CsvImporterController@importEntries');
+
         Route::put('series/{series_id}/city/{cities_id}/year/{year}/entry', 'EntryController@upsert');
         Route::post('series/{series_id}/city/{cities_id}/year/{year}/entry', 'EntryController@upsert');
         Route::patch('series/{series_id}/city/{cities_id}/year/{year}/entry', 'EntryController@upsert');
