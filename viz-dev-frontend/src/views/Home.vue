@@ -9,17 +9,13 @@
 <script>
 import Chart from '@/components/Chart.vue';
 import Cards from '@/components/Cards.vue';
+
 export default {
   name: 'home',
   components: {
-    Chart: Chart,
-    Cards: Cards
+    Chart,
+    Cards,
   },
-  data() {
-    return {
-      
-    }
-  }
 };
 </script>
 

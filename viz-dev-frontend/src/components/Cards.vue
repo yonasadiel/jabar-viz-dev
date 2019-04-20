@@ -1,6 +1,6 @@
 <template>
   <div class="flex-row flex-wrap container__card">
-    <div v-for="picture in pictures">
+    <div v-for="picture in pictures" v-bind:key="picture.link">
       <div class="cards">
         <img v-bind:src="require('@/assets/' + picture.link)" :class="picture.logo"/>
         <div class="container">
@@ -17,20 +17,40 @@ export default {
   name: 'Cards',
   data() {
     return {
-        pictures: [
-        {name:"Play Button", link:"button_play.png", desc:"Menampilkan data tahun ke tahun dalam animasi", logo:""},
-        {name:"Color", link:"color.png", desc:"Mengubah warna bulatan berdasarkan range nilai", logo:"logo__follow--btnPlay"},
-        {name:"Sumbu X", link:"dropdown_x.png", desc:"Mengubah variabel sumbu X", logo:"logo__dropdown--x"},
-        {name:"Sumbu Y", link:"dropdown_y.png", desc:"Mengubah variabel sumbu Y", logo:""},
-        {name:"Expand", link:"expand.png", desc:"Membuat grafik ditampilkan full screen", logo:"logo__follow--btnPlay"},
-        {name:"Find", link:"find.png", desc:"Memilih kota-kota secara spesifik", logo:"logo__follow--btnPlay"},
-        {name:"Option", link:"option.png", desc:"Mengatur tampilan grafik", logo:"logo__follow--btnPlay"},
-        {name:"Present", link:"present.png", desc:"Menyajikan grafik dalam presentasi bersih", logo:"logo__follow--btnPlay"},
-        {name:"Timeline", link:"timeline.png", desc:"Tahun-tahun pada data untuk ditampilkan", logo:"logo__timeline"},
-        {name:"Zoom", link:"zoom.png", desc:"Zoom in atau zoom out pada grafik", logo:"logo__follow--btnPlay"},
-    ]
-    }
-  }
+      pictures: [
+        {
+          name: 'Play Button', link: 'button_play.png', desc: 'Menampilkan data tahun ke tahun dalam animasi', logo: '',
+        },
+        {
+          name: 'Color', link: 'color.png', desc: 'Mengubah warna bulatan berdasarkan range nilai', logo: 'logo__follow--btnPlay',
+        },
+        {
+          name: 'Sumbu X', link: 'dropdown_x.png', desc: 'Mengubah variabel sumbu X', logo: 'logo__dropdown--x',
+        },
+        {
+          name: 'Sumbu Y', link: 'dropdown_y.png', desc: 'Mengubah variabel sumbu Y', logo: '',
+        },
+        {
+          name: 'Expand', link: 'expand.png', desc: 'Membuat grafik ditampilkan full screen', logo: 'logo__follow--btnPlay',
+        },
+        {
+          name: 'Find', link: 'find.png', desc: 'Memilih kota-kota secara spesifik', logo: 'logo__follow--btnPlay',
+        },
+        {
+          name: 'Option', link: 'option.png', desc: 'Mengatur tampilan grafik', logo: 'logo__follow--btnPlay',
+        },
+        {
+          name: 'Present', link: 'present.png', desc: 'Menyajikan grafik dalam presentasi bersih', logo: 'logo__follow--btnPlay',
+        },
+        {
+          name: 'Timeline', link: 'timeline.png', desc: 'Tahun-tahun pada data untuk ditampilkan', logo: 'logo__timeline',
+        },
+        {
+          name: 'Zoom', link: 'zoom.png', desc: 'Zoom in atau zoom out pada grafik', logo: 'logo__follow--btnPlay',
+        },
+      ],
+    };
+  },
 };
 </script>
 
