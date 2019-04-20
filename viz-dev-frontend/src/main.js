@@ -3,6 +3,7 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import Navbar from './components/Navbar.vue';
+import './styles/index.scss';
 
 Vue.component('Navbar', Navbar);
 Vue.config.productionTip = false;

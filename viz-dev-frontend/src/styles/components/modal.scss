@@ -1,0 +1,66 @@
+@import '../base';
+
+.modal {
+    position: fixed;
+    z-index: 200;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+
+    .modal-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0,0,0,0.4);
+    }
+
+    .modal-content {
+        position: relative;
+        background-color: #fefefe;
+        margin: auto;
+        width: 50%;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+        animation: animatetop 0.4s;
+
+        .close {
+            width: 30px;
+            color: #eee;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            right: 0;
+            top: 0;
+            cursor: pointer;
+        }
+
+        .close:hover, .close:focus {
+            color: #fff;
+        }
+
+        .modal-header {
+            padding: 10px 16px;
+            background-color: $primary;
+            color: white;
+            text-align: center;
+        }
+
+        .modal-body {
+            padding: 16px 16px;
+            text-align: center;
+        }
+
+        .modal-footer {
+            text-align: center;
+        }
+    }
+}
+
+@keyframes animatetop {
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
+}

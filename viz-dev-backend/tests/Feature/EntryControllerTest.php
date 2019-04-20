@@ -25,6 +25,15 @@ class EntryControllerTest extends TestCase
         $this->dinas_user = User::where('role', 'dinas')->first();
     }
 
+    public function testContentType()
+    {
+        $api = $this->base_api . 'series/1/entries';
+        $response = $this->get($api);
+        $response->assertStatus(200);
+
+        $this->assertEquals('application/json', $response->headers->get('Content-Type'));
+    }
+
     public function testGetEntriesSuccess()
     {
         $api = $this->base_api . 'series/1/entries';
