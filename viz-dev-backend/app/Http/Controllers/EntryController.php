@@ -122,26 +122,17 @@ class EntryController extends Controller
             ], 400);
         }
 
-        $entry = Entry::where([
-            ['series_id', '=', $series_id],
-            ['cities_id', '=', $cities_id],
-            ['year', '=', $year],
-        ])->first();
+        list($entry, $created) = Entry::upsert([
+            'series_id' => $series_id,
+            'cities_id' => $cities_id,
+            'year' => $year,
+            'value' => $request->input('value'),
+        ]);
 
-        if ($entry) {
-            $entry->value = $request->input('value');
-            $entry->save();
-
-            return response($entry, 200);
-        } else {
-            $entry = new Entry();
-            $entry->series_id = $series_id;
-            $entry->cities_id = $cities_id;
-            $entry->year = $year;
-            $entry->value = $request->input('value');
-            $entry->save();
-
+        if ($created) {
             return response($entry, 201);
+        } else {
+            return response($entry, 200);
         }
     }
 }

@@ -8,17 +8,21 @@ RUN apk add \
     openrc \
     php \
     php-curl \
+    php-ctype \
     php-fpm \
+    php-gd \
     php-mbstring \
     php-pdo \
     php-pdo_pgsql \
     php-pgsql \
     php-session \
+    php-simplexml \
     php-tokenizer \
     php-xml \
     php-xmlreader \
     php-xmlrpc \
     php-xmlwriter \
+    php-zip \
     php-zlib \
     postgresql \
     postgresql-contrib \
