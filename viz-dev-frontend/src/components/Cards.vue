@@ -2,7 +2,7 @@
   <div class="flex-row flex-wrap container__card">
     <div v-for="picture in pictures">
       <div class="cards">
-        <img v-bind:src="require('@/assets/' + picture.link)" id="logo"/>
+        <img v-bind:src="require('@/assets/' + picture.link)" :class="picture.logo"/>
         <div class="container">
           <h4><b>{{ picture.name }}</b></h4>
           <p> {{ picture.desc }} </p>
@@ -18,16 +18,16 @@ export default {
   data() {
     return {
         pictures: [
-        {name:"Play Button", link:"button_play.png", desc:"Menampilkan data tahun ke tahun dalam animasi"},
-        {name:"Color", link:"color.png", desc:"Color desc"},
-        {name:"Sumbu X", link:"dropdown_x.png", desc:"Sumbu X desc"},
-        {name:"Sumbu Y", link:"dropdown_y.png", desc:"Sumbu Y desc"},
-        {name:"Expand", link:"expand.png", desc:"Expand desc"},
-        {name:"Find", link:"find.png", desc:"Find desc"},
-        {name:"Option", link:"option.png", desc:"Option desc"},
-        {name:"Present", link:"present.png", desc:"Present desc"},
-        {name:"Timeline", link:"timeline.png", desc:"Timeline desc"},
-        {name:"Zoom", link:"zoom.png", desc:"Zoom desc"},
+        {name:"Play Button", link:"button_play.png", desc:"Menampilkan data tahun ke tahun dalam animasi", logo:""},
+        {name:"Color", link:"color.png", desc:"Mengubah warna bulatan berdasarkan range nilai", logo:"logo__follow--btnPlay"},
+        {name:"Sumbu X", link:"dropdown_x.png", desc:"Mengubah variabel sumbu X", logo:"logo__dropdown--x"},
+        {name:"Sumbu Y", link:"dropdown_y.png", desc:"Mengubah variabel sumbu Y", logo:""},
+        {name:"Expand", link:"expand.png", desc:"Membuat grafik ditampilkan full screen", logo:"logo__follow--btnPlay"},
+        {name:"Find", link:"find.png", desc:"Memilih kota-kota secara spesifik", logo:"logo__follow--btnPlay"},
+        {name:"Option", link:"option.png", desc:"Mengatur tampilan grafik", logo:"logo__follow--btnPlay"},
+        {name:"Present", link:"present.png", desc:"Menyajikan grafik dalam presentasi bersih", logo:"logo__follow--btnPlay"},
+        {name:"Timeline", link:"timeline.png", desc:"Tahun-tahun pada data untuk ditampilkan", logo:"logo__timeline"},
+        {name:"Zoom", link:"zoom.png", desc:"Zoom in atau zoom out pada grafik", logo:"logo__follow--btnPlay"},
     ]
     }
   }
@@ -35,6 +35,20 @@ export default {
 </script>
 
 <style scoped>
+.logo__follow--btnPlay {
+  width: 45px;
+  height: 43px;
+}
+
+.logo__dropdown--x {
+  width: 200px;
+  height: 26px;
+}
+
+.logo__timeline {
+  width: 200px;
+  height: 29px;
+}
 
 .flex-row {
   display: flex;
