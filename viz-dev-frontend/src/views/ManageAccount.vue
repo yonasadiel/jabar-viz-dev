@@ -51,13 +51,7 @@ export default {
     ModalUserEdit,
   },
   created() {
-    // TODO: delete this after login page is done
-    api.post('/login', {
-      username: 'admin',
-      password: 'vizdevadmin4992',
-    }).then(() => {
-      this.retrieveUser();
-    });
+    this.retrieveUser();
   },
   methods: {
     retrieveUser() {

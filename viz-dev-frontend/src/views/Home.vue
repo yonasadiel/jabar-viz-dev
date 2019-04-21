@@ -11,7 +11,7 @@ import Chart from '@/components/Chart.vue';
 import Cards from '@/components/Cards.vue';
 
 export default {
-  name: 'home',
+  name: 'Home',
   components: {
     Chart,
     Cards,
