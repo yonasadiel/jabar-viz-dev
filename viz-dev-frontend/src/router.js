@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import { requireAdmin, requireGuest, requireLogin } from './guard';
 import Home from './views/Home.vue';
 import ManageAccount from './views/ManageAccount.vue';
 import Login from './views/Login.vue';
@@ -14,36 +15,32 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
+      name: 'Home',
       component: Home,
-    },
-    {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue'),
     },
     {
       path: '/manage',
       name: 'ManageAccount',
       component: ManageAccount,
+      beforeEnter: requireAdmin,
     },
     {
       path: '/login',
       name: 'Login',
       component: Login,
+      beforeEnter: requireGuest,
     },
     {
       path: '/edit',
       name: 'Edit',
       component: Edit,
+      beforeEnter: requireLogin,
     },
     {
       path: '/edit_data',
       name: 'Edit_Data',
       component: EditData,
+      beforeEnter: requireLogin,
     },
   ],
 });

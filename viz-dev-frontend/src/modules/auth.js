@@ -11,6 +11,9 @@ export default {
     isLoggedIn(state) {
       return !!state.user;
     },
+    isAdmin(state) {
+      return !!state.user && (state.user.role === 'admin');
+    },
   },
   mutations: {
     /* eslint-disable no-param-reassign */
