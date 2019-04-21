@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div id="placeholder" width="600px" height="400px"></div>
+        <div id="placeholder"></div>
     </div>
 </template>
 
@@ -55,3 +55,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+#placeholder {
+  height: 600px;
+  margin: 10px 15px;
+}
+</style>
