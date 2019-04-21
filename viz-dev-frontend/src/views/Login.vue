@@ -14,8 +14,8 @@
         </div>
         <div class="error">{{ this.error }}</div>
         <div class="d-flex flex-row justify-content-center">
-          <Loader v-if="this.isLoggingIn"/>
-          <button v-if="!this.isLoggingIn" class="btn" v-on:click="login">Login</button>
+          <Loader v-if="this.loading"/>
+          <button v-if="!this.loading" class="btn" v-on:click="login">Login</button>
         </div>
       </div>
     </div>
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import api from '@/api';
+import { mapState, mapActions } from 'vuex';
 import Loader from '@/components/Loader.vue';
 
 export default {
@@ -31,13 +31,15 @@ export default {
   components: {
     Loader,
   },
-  data() {
-    return {
-      username: '',
-      password: '',
-      isLoggingIn: false,
-      error: '',
-    };
+  data: () => ({
+    username: '',
+    password: '',
+  }),
+  computed: {
+    ...mapState({
+      error: state => state.auth.error,
+      loading: state => state.auth.loading,
+    }),
   },
   mounted() {
     const inputs = document.getElementsByTagName('input');
@@ -51,18 +53,14 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      loginAction: 'auth/login',
+    }),
     login() {
-      this.isLoggingIn = true;
-      this.error = '';
-      api.post('/login', {
+      this.loginAction({
         username: this.username,
         password: this.password,
-      }).then(() => {
-        this.isLoggingIn = false;
-        this.$router.push('/edit');
-      }).catch((err) => {
-        this.isLoggingIn = false;
-        this.error = err.response.data.message;
+        router: this.$router,
       });
     },
   },
