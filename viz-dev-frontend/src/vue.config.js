@@ -1,21 +1,21 @@
 module.exports = {
-    configureWebpack: {
-        module: {
-            loaders: [
-                {
-                    test: /\.vue$/,
-                    loader: 'vue'
-                },
-                {
-                    test: /\.s[a|c]ss$/,
-                    loader: 'style!css!sass'
-                }
-            ]
+  configureWebpack: {
+    module: {
+      loaders: [
+        {
+          test: /\.vue$/,
+          loader: 'vue',
         },
-        vue: {
-            loaders: {
-                scss: 'style!css!sass',
-            },
+        {
+          test: /\.s[a|c]ss$/,
+          loader: 'style!css!sass',
         },
+      ],
     },
+    vue: {
+      loaders: {
+        scss: 'style!css!sass',
+      },
+    },
+  },
 };

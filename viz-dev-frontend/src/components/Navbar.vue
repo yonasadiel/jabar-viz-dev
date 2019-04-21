@@ -1,6 +1,6 @@
 <template>
     <ul class="nav__top">
-        <li v-for="link in links">
+        <li v-for="link in links" v-bind:key="link">
             <a href="#"> {{ link }} </a>
         </li>
     </ul>
