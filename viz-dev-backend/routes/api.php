@@ -40,6 +40,7 @@ Route::prefix('v1')->group(function () {
         Route::put('series/{series_id}/city/{cities_id}/year/{year}/entry', 'EntryController@upsert');
         Route::post('series/{series_id}/city/{cities_id}/year/{year}/entry', 'EntryController@upsert');
         Route::patch('series/{series_id}/city/{cities_id}/year/{year}/entry', 'EntryController@upsert');
+        Route::delete('series/{series_id}/city/{cities_id}/year/{year}/entry', 'EntryController@destroy');
 
         Route::middleware('admin')->group(function() {
             Route::get('users', 'UserController@index');

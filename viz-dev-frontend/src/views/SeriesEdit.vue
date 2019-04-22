@@ -11,10 +11,10 @@
       </div>
 
       <Loader class="loader" v-if="isLoadingSeries" />
-      <div class="align-self-start" v-if="!isLoadingSeries">
-        <p>Nama: <input type="text" v-model="series.name"></p>
-        <p>Deskripsi: </p>
-        <p><textarea type="text" v-model="series.description"></textarea></p>
+      <div class="w-100 align-self-start" v-if="!isLoadingSeries">
+        <div>Nama: <input type="text" v-model="series.name"></div>
+        <div>Deskripsi: </div>
+        <div><textarea type="text" v-model="series.description"></textarea></div>
         <Loader class="loader" v-if="isSavingSeries" />
         <button
           class="btn save-series"
@@ -31,23 +31,35 @@
         <div class="flex-col col-entry" v-for="year in Object.keys(years)" v-bind:key="year">
           <div class="row-header">{{ year }}</div>
           <div class="row-entry" v-for="city in cities" v-bind:key="city.id">
-            <input type="text" class="number-entry" v-model="entries[year][city.id]" />
+            <EntryInput
+              v-bind:year="year"
+              v-bind:cityId="city.id"
+              v-bind:seriesId="series.id"
+              v-bind:entry="entries[year][city.id]"/>
           </div>
         </div>
       </div>
-      <button class="btn align-self-end save-entries">Simpan</button>
+
+      <Loader class="loader" v-if="isSavingEntries" />
+      <button
+        class="btn align-self-end save-entries"
+        v-if="!isSavingEntries"
+        v-on:click="saveEntries">Simpan</button>
     </div>
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import api from '@/api';
+import EntryInput from '@/components/EntryInput.vue';
 import Loader from '@/components/Loader.vue';
 
 export default {
   name: 'SeriesEdit',
   components: {
     Loader,
+    EntryInput,
   },
   data: () => ({
     cities: [],
@@ -63,6 +75,7 @@ export default {
     isLoadingCities: false,
     isLoadingEntries: false,
     isSavingSeries: false,
+    isSavingEntries: false,
   }),
   created() {
     this.retrieveSeries();
@@ -70,6 +83,9 @@ export default {
     this.retrieveEntries();
   },
   methods: {
+    ...mapActions({
+      saveAction: 'entry/save',
+    }),
     retrieveSeries() {
       this.isLoadingSeries = true;
       api.get(`/series/${this.$route.params.id}`).then((response) => {
@@ -87,6 +103,7 @@ export default {
     retrieveEntries() {
       this.isLoadingEntries = true;
       this.years = {};
+      this.entries = {};
       api.get(`/series/${this.$route.params.id}/entries`).then((response) => {
         for (let i = 0; i < response.data.length; i += 1) {
           const entry = response.data[i];
@@ -94,9 +111,16 @@ export default {
           if (!this.entries[entry.year]) {
             this.entries[entry.year] = {};
           }
-          this.entries[entry.year][entry.cities_id] = entry.value;
+          this.entries[entry.year][entry.cities_id] = entry;
         }
         this.isLoadingEntries = false;
+      });
+    },
+    saveEntries() {
+      this.isSavingEntries = true;
+      this.saveAction().then(() => {
+        this.isSavingEntries = false;
+        this.retrieveEntries();
       });
     },
     saveSeries() {
@@ -124,6 +148,9 @@ export default {
 
 textarea {
   width: 400px;
+  max-width: 100%;
+  margin-left: 0;
+  margin-right: 0;
   margin-top:10px;
 }
 
@@ -176,24 +203,6 @@ textarea {
 
 .col-header .row-header, .col-header .row-entry {
   align-items: flex-start;
-}
-
-.number-entry {
-  text-align: center;
-  padding: 5px;
-  margin: 5px;
-  width: 70px;
-  border: 0;
-  border-bottom: 2px solid rgba(0, 0, 0, .5);
-  background-color: transparent;
-}
-
-.number-entry:active,
-.number-entry:focus,
-.number-entry:hover {
-  outline: none;
-  background-color: rgba(6, 116, 210, .05);
-  border-bottom: 2px solid rgba(6, 116, 210, 1);
 }
 
 .table {

@@ -135,4 +135,39 @@ class EntryController extends Controller
             return response($entry, 200);
         }
     }
+
+    public static function destroy(Request $request, $series_id, $cities_id, $year) {
+        $series = Series::find($series_id);
+        $city = City::find($cities_id);
+
+        if (!$series) {
+            return response([
+                'code' => 'SERIES_NOT_FOUND',
+                'message' => 'Series requested is not found',
+            ], 404);
+        }
+
+        if (!$city) {
+            return response([
+                'code' => 'CITY_NOT_FOUND',
+                'message' => 'City requested is not found',
+            ], 404);
+        }
+
+        $entry = Entry::where([
+            ['series_id', '=', $series_id],
+            ['cities_id', '=', $cities_id],
+            ['year', '=', $year],
+        ])->first();
+
+        if ($entry) {
+            $entry->delete();
+            return response($entry, 200);
+        } else {
+            return response([
+                'code' => 'ENTRY_NOT_FOUND',
+                'message' => 'Entry is not found',
+            ], 404);
+        }
+    }
 }
