@@ -6,13 +6,15 @@
 
 <script>
 
+import { apiConfig } from '../api';
+
 const config = {
   locale: {
     filePath: 'https://s3-eu-west-1.amazonaws.com/static.gapminderdev.org/assets/translation/',
   },
   data: {
     reader: 'csv-time_in_columns',
-    path: 'https://raw.githubusercontent.com/yonasadiel/temp/master/jabar.csv',
+    path: `${apiConfig.baseURL}/entries`,
   },
 };
 

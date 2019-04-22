@@ -4,8 +4,8 @@ import { requireAdmin, requireGuest, requireLogin } from './guard';
 import Home from './views/Home.vue';
 import ManageAccount from './views/ManageAccount.vue';
 import Login from './views/Login.vue';
-import Edit from './views/Edit.vue';
-import EditData from './views/EditData.vue';
+import Series from './views/Series.vue';
+import SeriesEdit from './views/SeriesEdit.vue';
 
 Vue.use(Router);
 
@@ -31,15 +31,15 @@ export default new Router({
       beforeEnter: requireGuest,
     },
     {
-      path: '/edit',
-      name: 'Edit',
-      component: Edit,
+      path: '/series',
+      name: 'Series',
+      component: Series,
       beforeEnter: requireLogin,
     },
     {
-      path: '/edit_data',
-      name: 'Edit_Data',
-      component: EditData,
+      path: '/series/:id',
+      name: 'SeriesEdit',
+      component: SeriesEdit,
       beforeEnter: requireLogin,
     },
   ],
