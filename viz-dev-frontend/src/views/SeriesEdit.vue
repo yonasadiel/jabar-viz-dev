@@ -15,7 +15,11 @@
         <p>Nama: <input type="text" v-model="series.name"></p>
         <p>Deskripsi: </p>
         <p><textarea type="text" v-model="series.description"></textarea></p>
-        <button class="btn save-series">Simpan</button>
+        <Loader class="loader" v-if="isSavingSeries" />
+        <button
+          class="btn save-series"
+          v-if="!isSavingSeries"
+          v-on:click="saveSeries">Simpan</button>
       </div>
 
       <Loader class="loader" v-if="isLoadingEntries" />
@@ -58,6 +62,7 @@ export default {
     isLoadingSeries: false,
     isLoadingCities: false,
     isLoadingEntries: false,
+    isSavingSeries: false,
   }),
   created() {
     this.retrieveSeries();
@@ -92,6 +97,13 @@ export default {
           this.entries[entry.year][entry.cities_id] = entry.value;
         }
         this.isLoadingEntries = false;
+      });
+    },
+    saveSeries() {
+      this.isSavingSeries = true;
+      api.patch(`/series/${this.$route.params.id}`, this.series).then((response) => {
+        this.isSavingSeries = false;
+        this.series = response.data;
       });
     },
   },
@@ -185,7 +197,7 @@ textarea {
 }
 
 .table {
-  overflow-x: scroll;
+  overflow-x: auto;
   width: 100%;
 }
 
