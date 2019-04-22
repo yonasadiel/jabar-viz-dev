@@ -1,11 +1,11 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import { requireAdmin, requireGuest, requireLogin } from './guard';
-import Home from './views/Home.vue';
-import ManageAccount from './views/ManageAccount.vue';
-import Login from './views/Login.vue';
-import Series from './views/Series.vue';
-import SeriesEdit from './views/SeriesEdit.vue';
+import { requireAdmin, requireGuest, requireLogin } from '@/guard';
+import Home from '@/views/Home.vue';
+import ManageAccount from '@/views/ManageAccount.vue';
+import Login from '@/views/Login.vue';
+import Series from '@/views/Series.vue';
+import SeriesEdit from '@/views/SeriesEdit.vue';
 
 Vue.use(Router);
 
