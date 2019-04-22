@@ -19,6 +19,7 @@ Route::prefix('v1')->group(function () {
     Route::middleware('guest')->post('/login', 'AuthenticationController@login');
 
     Route::get('entries', 'EntryController@asCsv');
+    Route::get('cities', 'CityController@index');
 
     Route::get('series', 'SeriesController@index');
     Route::get('series/{id}', 'SeriesController@show');
