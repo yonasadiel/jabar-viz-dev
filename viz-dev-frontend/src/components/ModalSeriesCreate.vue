@@ -8,7 +8,6 @@
       </div>
       <div class="modal-body">
         <p> Nama Series: <input type="text" v-model="workingSeries.name"></p>
-        <p> Deskripsi: <input type="text" v-model="workingSeries.description"></p>
         <p class="error">{{error}}</p>
         <button class="btn" v-on:click="saveSeries">Simpan</button>
       </div>

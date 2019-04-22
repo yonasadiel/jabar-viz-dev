@@ -1,31 +1,46 @@
 @import '../base';
 
 .form-group {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    margin-bottom: 1em;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 1em;
 
-    label {
-        flex: 1 1;
-        margin-right: 10px;
-    }
-    input {
-        flex: 2 2;
-    }
+  label {
+    flex: 1 1;
+    margin-right: 10px;
+  }
+  input {
+    flex: 2 2;
+  }
 }
 
-input[type=text], input[type=email], input[type=password] {
-    border: 0;
-    border-bottom: 1px solid $black;
-    font-family: $primary-font;
-    font-size: $text-sm;
-    padding: 2px;
+input[type=text], input[type=email], input[type=password], textarea {
+  font-family: $primary-font;
+  font-size: $text-sm;
+  padding: 5px;
+  margin: 5px;
+  width: 70px;
+  border: 0;
+  border-bottom: 2px solid rgba(0, 0, 0, .5);
+  background-color: transparent;
+}
+
+input[type=text]:active, input[type=email]:active, input[type=password]:active, textarea:active,
+input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, textarea:focus,
+input[type=text]:hover, input[type=email]:hover, input[type=password]:hover, textarea:hover {
+  outline: none;
+  background-color: rgba(6, 116, 210, .05);
+  border-bottom: 2px solid rgba(6, 116, 210, 1);
 }
 
 select {
-    background-color: white;
-    border: 1px solid black;
-    border-radius: 2px;
-    padding: 3px;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 2px;
+  padding: 3px;
+}
+
+textarea {
+  height: 2em;
 }

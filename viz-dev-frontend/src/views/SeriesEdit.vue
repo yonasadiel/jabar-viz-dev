@@ -1,12 +1,24 @@
 <template>
   <div>
     <Navbar></Navbar>
-    <div class="container">
+    <div class="d-flex flex-column align-items-center container">
       <div class="title">
         <h1>Edit Series</h1>
-        <Loader class="loader series-title" v-if="isLoadingSeries" />
-        <h2 v-if="!isLoadingSeries">{{ this.series.name }}</h2>
+        <Loader class="loader" v-if="isLoadingSeries" />
+        <div class="d-flex flex-row justify-content-center align-items-center">
+          <h2 v-if="!isLoadingSeries">{{ this.series.name }}</h2>
+        </div>
       </div>
+
+      <Loader class="loader" v-if="isLoadingSeries" />
+      <div class="align-self-start" v-if="!isLoadingSeries">
+        <p>Nama: <input type="text" v-model="series.name"></p>
+        <p>Deskripsi: </p>
+        <p><textarea type="text" v-model="series.description"></textarea></p>
+        <button class="btn save-series">Simpan</button>
+      </div>
+
+      <Loader class="loader" v-if="isLoadingEntries" />
       <div class="flex-row table" v-if="!isLoadingEntries">
         <div class="flex-col col-header">
           <div class="row-header">Kab / Kota</div>
@@ -19,7 +31,7 @@
           </div>
         </div>
       </div>
-      <button class="btn save">Simpan</button>
+      <button class="btn align-self-end save-entries">Simpan</button>
     </div>
   </div>
 </template>
@@ -86,14 +98,25 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import '../styles/components/form';
+
+.container {
+  padding-bottom: 100px;
+}
+
 .title {
   text-align: center;
   margin: 1.5em 0;
 }
 
-.loader.series-title {
-  height: 20px;
+textarea {
+  width: 400px;
+  margin-top:10px;
+}
+
+.btn.save-series {
+  margin-left: 0;
 }
 
 .flex-row {
@@ -106,23 +129,7 @@ export default {
   flex-direction: column;
 }
 
-/* flex container */
-.grid__edit--form {
-  display: grid;
-  grid-template-columns: auto auto auto auto auto auto auto;
-  padding: 10px;
-}
-
-.grid__edit--form > input:active,
-.grid__edit--form > input:focus {
-  outline: none;
-}
-
-.grid__edit--form > label {
-  text-align: center;
-}
-
-.btn.save {
+.btn.save-entries {
   float: right;
   margin-right: 0;
 }
@@ -179,6 +186,7 @@ export default {
 
 .table {
   overflow-x: scroll;
+  width: 100%;
 }
 
 </style>
