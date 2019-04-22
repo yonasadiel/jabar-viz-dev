@@ -15,7 +15,7 @@
   }
 }
 
-input[type=text], input[type=email], input[type=password], textarea {
+input[type=text], input[type=email], input[type=password], input[type=number], textarea {
   font-family: $primary-font;
   font-size: $text-sm;
   padding: 5px;
@@ -26,9 +26,9 @@ input[type=text], input[type=email], input[type=password], textarea {
   background-color: transparent;
 }
 
-input[type=text]:active, input[type=email]:active, input[type=password]:active, textarea:active,
-input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, textarea:focus,
-input[type=text]:hover, input[type=email]:hover, input[type=password]:hover, textarea:hover {
+input[type=text]:active, input[type=email]:active, input[type=password]:active, input[type=number]:active, textarea:active,
+input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, input[type=number]:focus, textarea:focus,
+input[type=text]:hover, input[type=email]:hover, input[type=password]:hover, input[type=number]:hover, textarea:hover {
   outline: none;
   background-color: rgba(6, 116, 210, .05);
   border-bottom: 2px solid rgba(6, 116, 210, 1);

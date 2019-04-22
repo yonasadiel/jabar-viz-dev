@@ -22,6 +22,14 @@
           v-on:click="saveSeries">Simpan</button>
       </div>
 
+      <div class="align-self-start">
+        Tambah tahun:
+        <input type="number" v-model="addedYear">
+        <button
+          class="btn add-year"
+          v-on:click="addYear">Tambah</button>
+      </div>
+
       <Loader class="loader" v-if="isLoadingEntries" />
       <div class="flex-row table" v-if="!isLoadingEntries">
         <div class="flex-col col-header">
@@ -69,13 +77,13 @@ export default {
       description: '',
     },
     years: {},
-    yearsList: [],
     entries: {},
     isLoadingSeries: false,
     isLoadingCities: false,
     isLoadingEntries: false,
     isSavingSeries: false,
     isSavingEntries: false,
+    addedYear: 2019,
   }),
   created() {
     this.retrieveSeries();
@@ -130,6 +138,13 @@ export default {
         this.series = response.data;
       });
     },
+    addYear() {
+      this.years[this.addedYear] = true;
+      if (!this.entries[this.addedYear]) {
+        this.entries[this.addedYear] = {};
+      }
+      this.$forceUpdate();
+    },
   },
 };
 </script>
@@ -156,6 +171,10 @@ textarea {
 
 .btn.save-series {
   margin-left: 0;
+}
+
+.btn.add-year {
+  display: inline-block;
 }
 
 .flex-row {
@@ -197,7 +216,7 @@ textarea {
   align-items: center;
 }
 
-.row-entry:nth-child(even) {
+.row-entry:nth-child(odd), .row-header {
   background-color: rgba(0, 0, 0, .05);
 }
 

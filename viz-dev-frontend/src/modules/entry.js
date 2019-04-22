@@ -29,7 +29,7 @@ export default {
     },
   },
   actions: {
-    save({ state }) {
+    save({ commit, state }) {
       const promises = [];
       /* eslint-disable no-restricted-syntax */
       /* eslint-disable guard-for-in */
@@ -47,6 +47,7 @@ export default {
           }
         }
       }
+      commit('clearModifiedEntries');
       return Promise.all(promises);
     },
     modify({ commit }, entry) {
