@@ -3,8 +3,17 @@
     <router-link v-bind:to="linkHome" class="d-flex flex-row align-items-center">
       <img v-bind:src="logo" class="logo" /> Jabar Viz Dev
     </router-link>
-    <router-link v-bind:to="linkEdit" class="d-flex flex-row align-items-center">
-      Edit
+    <router-link
+      v-if="user"
+      v-bind:to="linkSeries"
+      class="d-flex flex-row align-items-center">
+        Edit
+    </router-link>
+    <router-link
+      v-if="user && user.role === 'admin'"
+      v-bind:to="linkAccount"
+      class="d-flex flex-row align-items-center">
+        Akun
     </router-link>
     <div class="flex-1"></div>
     <div class="flex-0" v-if="user">{{ user.username }}</div>
@@ -18,14 +27,16 @@
 import { mapState } from 'vuex';
 import logo from '@/assets/logo-jabar.png';
 import Home from '@/views/Home.vue';
-import Edit from '@/views/Edit.vue';
+import Series from '@/views/Series.vue';
+import Account from '@/views/ManageAccount.vue';
 import Login from '@/views/Login.vue';
 
 export default {
   data: () => ({
     logo,
+    linkAccount: Account,
     linkHome: Home,
-    linkEdit: Edit,
+    linkSeries: Series,
     linkLogin: Login,
   }),
   computed: {

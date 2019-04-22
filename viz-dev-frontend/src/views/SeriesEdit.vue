@@ -39,18 +39,18 @@
 
 <script>
 export default {
-  name: 'Edit_Data',
+  name: 'SeriesEdit',
   components: {
   },
-  data(){
-    return{
+  data() {
+    return {
       kab_kota: [
-        {name: 'Kota Bandung',},
-        {name: 'Kota Bekasi'},
-        {name: 'Kota Depok'},
-      ]
-    }
-  }
+        { name: 'Kota Bandung' },
+        { name: 'Kota Bekasi' },
+        { name: 'Kota Depok' },
+      ],
+    };
+  },
 };
 </script>
 

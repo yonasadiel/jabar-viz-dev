@@ -44,7 +44,7 @@ import ModalUserCreate from '@/components/ModalUserCreate.vue';
 import ModalUserEdit from '@/components/ModalUserEdit.vue';
 
 export default {
-  username: 'ManageAccount',
+  name: 'ManageAccount',
   components: {
     Loader,
     ModalUserCreate,
@@ -112,12 +112,12 @@ export default {
 @import '../styles/components/table';
 
 .title {
-    text-align: center;
-    margin: 1.5em 0;
+  text-align: center;
+  margin: 1.5em 0;
 }
 
 .btn.add-user {
-    margin-left: 0;
+  margin-left: 0;
 }
 
 .table {

@@ -23,6 +23,9 @@ a {
 // button
 
 .btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-family: inherit;
   border: 0;
   background-color: $primary-light;
@@ -33,6 +36,7 @@ a {
   color: white;
   animation: all 1s ease;
   cursor: pointer;
+  text-align: center;
 }
 
 .btn:hover {
