@@ -3,7 +3,6 @@
 namespace Tests\Unit;
 
 use App\Models\User;
-use App\Http\Controllers\SeriesController;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

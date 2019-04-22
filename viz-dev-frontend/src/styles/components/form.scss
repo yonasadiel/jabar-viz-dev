@@ -1,0 +1,31 @@
+@import '../base';
+
+.form-group {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1em;
+
+    label {
+        flex: 1 1;
+        margin-right: 10px;
+    }
+    input {
+        flex: 2 2;
+    }
+}
+
+input[type=text], input[type=email], input[type=password] {
+    border: 0;
+    border-bottom: 1px solid $black;
+    font-family: $primary-font;
+    font-size: $text-sm;
+    padding: 2px;
+}
+
+select {
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 2px;
+    padding: 3px;
+}

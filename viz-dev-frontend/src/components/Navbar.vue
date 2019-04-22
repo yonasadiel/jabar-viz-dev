@@ -1,49 +1,65 @@
 <template>
-    <ul class="nav__top">
-        <li v-for="link in links">
-            <a href="#"> {{ link }} </a>
-        </li>
-    </ul>
+  <div class="nav">
+    <router-link v-bind:to="linkHome" class="d-flex flex-row align-items-center">
+      <img v-bind:src="logo" class="logo" /> Jabar Viz Dev
+    </router-link>
+    <router-link v-bind:to="linkEdit" class="d-flex flex-row align-items-center">
+      Edit
+    </router-link>
+    <div class="flex-1"></div>
+    <div class="flex-0" v-if="user">{{ user.username }}</div>
+    <router-link v-if="!user" v-bind:to="linkLogin" class="d-flex flex-row align-items-center">
+      Login
+    </router-link>
+  </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
+import logo from '@/assets/logo-jabar.png';
+import Home from '@/views/Home.vue';
+import Edit from '@/views/Edit.vue';
+import Login from '@/views/Login.vue';
+
 export default {
-  data() {
-    return {
-      links: ['Data Viz', 'Edit', 'Username!'],
-    };
+  data: () => ({
+    logo,
+    linkHome: Home,
+    linkEdit: Edit,
+    linkLogin: Login,
+  }),
+  computed: {
+    ...mapState({
+      user: state => state.auth.user,
+    }),
   },
 };
 </script>
 
-<style scoped>
-/* Navigation Bar */
-.nav__top {
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
-    overflow: hidden;
-    background-color: rgba(6, 116, 210, 1);
-}
+<style lang="scss" scoped>
+@import '../styles/base';
 
-li {
-    float: left;
-}
+.nav {
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: $primary;
+  color: white;
 
-li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
+  > * {
+    height: 40px;
+    padding: 10px 10px;
+  }
+
+  .logo {
+    height: 20px;
+    margin-right: 10px;
+  }
+
+  a:hover {
     cursor: pointer;
-    text-decoration: none;
-}
-
-li a:hover {
-    background-color: rgba(255, 255, 255, .3);
-}
-
-#username {
-    float: right;
+    background-color: rgba(255, 255, 255, .1);
+  }
 }
 </style>
