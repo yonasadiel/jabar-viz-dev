@@ -21,21 +21,12 @@
           v-if="!isSavingSeries"
           v-on:click="saveSeries">Simpan</button>
       </div>
-
-      <div class="entry-add">
-        <div class="align-self-start">
-          Tambah tahun:
-          <input type="number" v-model="addedYear">
-          <button
-            class="btn add-year"
-            v-on:click="addYear">Tambah</button>
-        </div>
-
-        <div class="import-data">
-            <button
-              class="btn import-data-btn align-self-end"
-              v-on:click="importCsv">Import</button>
-          </div>
+      <div class="align-self-start">
+        Tambah tahun:
+        <input type="number" v-model="addedYear">
+        <button
+          class="btn add-year"
+          v-on:click="addYear">Tambah</button>
       </div>
 
       <Loader class="loader" v-if="isLoadingEntries" />
@@ -66,6 +57,17 @@
       </div>
 
       <Loader class="loader" v-if="isSavingEntries" />
+
+      <div class="csv-importer form-group">
+        <div class="upload-btn-wrapper">
+          <button class="btn upload-csv">Upload Csv File</button>
+          <input type="file" name="file" ref="csvFileInput" v-on:change="handleFileUpload"/>
+        </div>
+        <input class="file-desc" type="text" :value="csvFile" disabled/>
+        <button
+          class="btn import-data align-self-end"
+          v-on:click="importCsv">Import</button>
+      </div>
     </div>
   </div>
 </template>
@@ -97,6 +99,8 @@ export default {
     isSavingSeries: false,
     isSavingEntries: false,
     addedYear: 2019,
+    csvFile: "",
+    files: [],
   }),
   created() {
     this.retrieveSeries();
@@ -164,6 +168,11 @@ export default {
         this.entries[this.addedYear] = {};
       }
       this.$forceUpdate();
+    },
+    handleFileUpload(event){
+      var fileData =  event.target.files[0];
+      this.files = event.target.files[0];
+      this.csvFile = fileData.name;
     },
     importCsv(){
       confirm('test')
@@ -268,10 +277,41 @@ textarea {
   justify-content: space-between; 
 }
 
-.entry-add {
+.csv-importer{
+  margin-top: 50px;
   display: flex;
   width: 100%;
   justify-content: space-between; 
+}
+
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.upload-btn-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+
+.csv-importer.file-desc {
+  margin-top: 19px;
+  margin-right: auto;
+  vertical-align: text-top;
+}
+
+.btn.upload-csv{
+  float: left;
+  margin-left: 0;
+}
+
+.btn.import-data{
+  float: right;
+  margin-right: 0;
 }
 
 </style>
