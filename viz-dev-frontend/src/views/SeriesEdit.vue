@@ -22,12 +22,20 @@
           v-on:click="saveSeries">Simpan</button>
       </div>
 
-      <div class="align-self-start">
-        Tambah tahun:
-        <input type="number" v-model="addedYear">
-        <button
-          class="btn add-year"
-          v-on:click="addYear">Tambah</button>
+      <div class="entry-add">
+        <div class="align-self-start">
+          Tambah tahun:
+          <input type="number" v-model="addedYear">
+          <button
+            class="btn add-year"
+            v-on:click="addYear">Tambah</button>
+        </div>
+
+        <div class="import-data">
+            <button
+              class="btn import-data-btn align-self-end"
+              v-on:click="importCsv">Import</button>
+          </div>
       </div>
 
       <Loader class="loader" v-if="isLoadingEntries" />
@@ -157,6 +165,9 @@ export default {
       }
       this.$forceUpdate();
     },
+    importCsv(){
+      confirm('test')
+    },
   },
 };
 </script>
@@ -252,6 +263,12 @@ textarea {
 }
 
 .button-bottom {
+  display: flex;
+  width: 100%;
+  justify-content: space-between; 
+}
+
+.entry-add {
   display: flex;
   width: 100%;
   justify-content: space-between; 
