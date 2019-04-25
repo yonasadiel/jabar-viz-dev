@@ -61,12 +61,13 @@
       <div class="csv-importer form-group">
         <div class="upload-btn-wrapper">
           <button class="btn upload-csv">Upload Csv File</button>
-          <input type="file" name="file" ref="csvFileInput" v-on:change="handleFileUpload"/>
+          <input type="file" name="series" accept=".xls,.xlsx,.csv" ref="csvFileInput" v-on:change="handleFileUpload"/>
         </div>
         <input class="file-desc" type="text" :value="csvFile" disabled/>
         <button
           class="btn import-data align-self-end"
-          v-on:click="importCsv">Import</button>
+          v-on:click="importCsv(series.id)"
+          :disabled="files">Import</button>
       </div>
     </div>
   </div>
@@ -174,8 +175,12 @@ export default {
       this.files = event.target.files[0];
       this.csvFile = fileData.name;
     },
-    importCsv(){
-      confirm('test')
+    importCsv(seriesId){
+      if (confirm('Upload csv?')) {
+        api.post(`series/${seriesId}/import`).then(() => {
+          //
+        });
+      }
     },
   },
 };
