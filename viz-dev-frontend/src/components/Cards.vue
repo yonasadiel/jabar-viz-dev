@@ -61,12 +61,12 @@ export default {
 }
 
 .logo__dropdown--x {
-  width: 200px;
+  width: 180px;
   height: 26px;
 }
 
 .logo__timeline {
-  width: 200px;
+  width: 180px;
   height: 29px;
 }
 
