@@ -1,6 +1,6 @@
 <template>
     <div class="flex-row flex-wrap container__card">
-      <div v-for="content in series">
+        <div v-for="content in series">
         <div class="cards">
           <div class="container">
             <h4><b>{{ content.name }}</b></h4>
@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import api from '@/api';
 export default {
   name: 'CardsSeries',
   data() {
@@ -19,32 +20,15 @@ export default {
       series: [],
     };
   },
-  methods: {
-    retrieveSeries() {
-      api.get('/series').then((response) => {
-        this.series = response.data;
-      });
-    },
+  created() {
+    api.get('/series').then((response) => {
+      this.series = response.data;
+    });
   }
 };
 </script>
   
 <style scoped>
-.logo__follow--btnPlay {
-  width: 45px;
-  height: 43px;
-}
-
-.logo__dropdown--x {
-  width: 180px;
-  height: 26px;
-}
-
-.logo__timeline {
-  width: 180px;
-  height: 29px;
-}
-
 .flex-row {
   display: flex;
   flex-direction: row;
@@ -64,9 +48,10 @@ export default {
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
   width: 200px;
-  height: 165px;
+  height: 110px;
   margin: 5px 10px;
   padding: 5px;
+  padding-top: 30px;
   cursor: pointer;
 }
 

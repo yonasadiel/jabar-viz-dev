@@ -3,6 +3,7 @@
     <Navbar></Navbar>
     <Chart></Chart>
     <Cards></Cards>
+    <h3 class="data-series">Data Series</h3>
     <CardsSeries></CardsSeries>
   </div>
 </template>
@@ -23,5 +24,8 @@ export default {
 </script>
 
 <style scoped>
-
+.data-series {
+  text-align: center;
+  margin: 12px 0;
+}
 </style>
