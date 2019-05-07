@@ -47,12 +47,17 @@
           </div>
         </div>
       </div>
+      <div class="button-bottom">
+        <button
+            class="btn align-self-start danger delete-series"
+            v-on:click="deleteSeries(series.id)">Hapus</button>
+        <button
+          class="btn align-self-end save-entries"
+          v-if="!isSavingEntries"
+          v-on:click="saveEntries">Simpan</button>
+      </div>
 
       <Loader class="loader" v-if="isSavingEntries" />
-      <button
-        class="btn align-self-end save-entries"
-        v-if="!isSavingEntries"
-        v-on:click="saveEntries">Simpan</button>
     </div>
   </div>
 </template>
@@ -138,6 +143,15 @@ export default {
         this.series = response.data;
       });
     },
+    deleteSeries(seriesId) {
+      /* eslint-disable no-restricted-globals */
+      /* eslint-disable no-alert */
+      if (confirm('yakin hapus series ini?')) {
+        api.delete(`/series/${seriesId}`).then(() => {
+          this.$router.push('/series');
+        });
+      }
+    },
     addYear() {
       this.years[this.addedYear] = true;
       if (!this.entries[this.addedYear]) {
@@ -151,6 +165,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '../styles/components/form';
+
 
 .container {
   padding-bottom: 100px;
@@ -192,6 +207,11 @@ textarea {
   margin-right: 0;
 }
 
+.btn.delete-series {
+  float: left;
+  margin-left: 0;
+}
+
 .col-header {
   flex: 1 1;
   min-width: 200px;
@@ -227,6 +247,16 @@ textarea {
 .table {
   overflow-x: auto;
   width: 100%;
+}
+
+.btn.danger {
+  background-color: rgba(250, 100, 100, 1);
+}
+
+.button-bottom {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
 }
 
 </style>
