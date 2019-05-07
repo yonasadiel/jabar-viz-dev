@@ -143,10 +143,11 @@ export default {
         this.series = response.data;
       });
     },
-    deleteSeries(seriesId){
+    deleteSeries(seriesId) {
+      // eslint-disable-next-line
       if (confirm('yakin hapus series ini?')) {
         api.delete(`/series/${seriesId}`).then(() => {
-          this.$router.push("/series")
+          this.$router.push('/series');
         });
       }
     },
@@ -254,7 +255,7 @@ textarea {
 .button-bottom {
   display: flex;
   width: 100%;
-  justify-content: space-between; 
+  justify-content: space-between;
 }
 
 </style>
