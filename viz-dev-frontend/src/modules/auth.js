@@ -39,7 +39,7 @@ export default {
         .then((response) => {
           commit('setUser', response.data);
           commit('setLoading', false);
-          router.push('/edit');
+          router.push('/series');
         }).catch((err) => {
           commit('setLoading', false);
           commit('setError', err.response.data.message);

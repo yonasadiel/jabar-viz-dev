@@ -144,7 +144,8 @@ export default {
       });
     },
     deleteSeries(seriesId) {
-      // eslint-disable-next-line
+      /* eslint-disable no-restricted-globals */
+      /* eslint-disable no-alert */
       if (confirm('yakin hapus series ini?')) {
         api.delete(`/series/${seriesId}`).then(() => {
           this.$router.push('/series');
