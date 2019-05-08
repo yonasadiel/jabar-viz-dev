@@ -61,7 +61,12 @@
       <div class="csv-importer form-group">
         <div class="upload-btn-wrapper">
           <button class="btn upload-csv">Upload Csv File</button>
-          <input type="file" name="series" accept=".xls,.xlsx,.csv" ref="csvFileInput" v-on:change="handleFileUpload"/>
+          <input
+            type="file"
+            name="series"
+            accept=".xls,.xlsx,.csv"
+            ref="csvFileInput"
+            v-on:change="handleFileUpload"/>
         </div>
         <input class="file-desc" type="text" :value="csvFile" disabled/>
         <button
@@ -100,7 +105,7 @@ export default {
     isSavingSeries: false,
     isSavingEntries: false,
     addedYear: 2019,
-    csvFile: "",
+    csvFile: '',
     files: [],
   }),
   created() {
@@ -172,12 +177,12 @@ export default {
       }
       this.$forceUpdate();
     },
-    handleFileUpload(event){
-      var fileData =  event.target.files[0];
-      this.files = event.target.files[0];
+    handleFileUpload(event) {
+      const fileData = event.target.files[0];
+      this.files = fileData;
       this.csvFile = fileData.name;
     },
-    importCsv(seriesId){
+    importCsv(seriesId) {
       if (confirm('Upload csv?')) {
         api.post(`series/${seriesId}/import`).then(() => {
           //
@@ -259,6 +264,10 @@ textarea {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  input[type=text] {
+    width: 70px;
+  }
 }
 
 .row-entry:nth-child(odd), .row-header {
@@ -288,7 +297,7 @@ textarea {
   margin-top: 50px;
   display: flex;
   width: 100%;
-  justify-content: space-between; 
+  justify-content: space-between;
 }
 
 .upload-btn-wrapper {
