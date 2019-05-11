@@ -4,6 +4,7 @@
   width: 100%;
   display: flex;
   flex-direction: row;
+  align-items: baseline;
   margin-bottom: 1em;
 
   label {
@@ -20,15 +21,15 @@ input[type=text], input[type=email], input[type=password], input[type=number], t
   font-size: $text-sm;
   padding: 5px;
   margin: 5px;
-  width: 70px;
+  width: 150px;
   border: 0;
   border-bottom: 2px solid rgba(0, 0, 0, .5);
   background-color: transparent;
 }
 
-input[type=text]:active, input[type=email]:active, input[type=password]:active, input[type=number]:active, textarea:active,
-input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, input[type=number]:focus, textarea:focus,
-input[type=text]:hover, input[type=email]:hover, input[type=password]:hover, input[type=number]:hover, textarea:hover {
+input[type=text]:active, input[type=email]:active, input[type=password]:active, input[type=number]:active, input[type=file]:active, textarea:active,
+input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, input[type=number]:focus, input[type=file]:focus, textarea:focus,
+input[type=text]:hover, input[type=email]:hover, input[type=password]:hover, input[type=number]:hover, input[type=file]:hover, textarea:hover {
   outline: none;
   background-color: rgba(6, 116, 210, .05);
   border-bottom: 2px solid rgba(6, 116, 210, 1);

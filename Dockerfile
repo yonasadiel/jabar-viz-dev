@@ -9,6 +9,7 @@ RUN apk add \
     php \
     php-curl \
     php-ctype \
+    php-fileinfo \
     php-fpm \
     php-gd \
     php-mbstring \
