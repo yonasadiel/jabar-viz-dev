@@ -58,9 +58,9 @@
 
       <Loader class="loader" v-if="isSavingEntries" />
 
-      <div class="csv-importer form-group">
+      <div class="csv-importer form-group d-flex flex-row">
         <div class="upload-btn-wrapper">
-          <button class="btn upload-csv">Upload Csv File</button>
+          <button class="btn upload-csv" v-on:click="onFileButtonClick">Upload Csv File</button>
           <input
             type="file"
             name="series"
@@ -72,7 +72,7 @@
         <button
           class="btn import-data align-self-end"
           v-on:click="importCsv(series.id)"
-          :disabled="files">Import</button>
+          :disabled="!files">Import</button>
       </div>
     </div>
   </div>
@@ -106,7 +106,7 @@ export default {
     isSavingEntries: false,
     addedYear: 2019,
     csvFile: '',
-    files: [],
+    files: null,
   }),
   created() {
     this.retrieveSeries();
@@ -177,6 +177,10 @@ export default {
       }
       this.$forceUpdate();
     },
+    onFileButtonClick() {
+      const fileInput = this.$refs.csvFileInput;
+      fileInput.click();
+    },
     handleFileUpload(event) {
       const fileData = event.target.files[0];
       this.files = fileData;
@@ -184,8 +188,14 @@ export default {
     },
     importCsv(seriesId) {
       if (confirm('Upload csv?')) {
-        api.post(`series/${seriesId}/import`).then(() => {
-          //
+        const formData = new FormData();
+        formData.append('series', this.files);
+        api.post(`series/${seriesId}/import`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }).then(() => {
+          this.retrieveEntries();
         });
       }
     },
@@ -307,11 +317,7 @@ textarea {
 }
 
 .upload-btn-wrapper input[type=file] {
-  font-size: 100px;
-  position: absolute;
-  left: 0;
-  top: 0;
-  opacity: 0;
+  display: none;
 }
 
 .csv-importer.file-desc {
@@ -320,14 +326,12 @@ textarea {
   vertical-align: text-top;
 }
 
-.btn.upload-csv{
-  float: left;
-  margin-left: 0;
+.btn.upload-csv {
+  margin: 0;
 }
 
-.btn.import-data{
-  float: right;
-  margin-right: 0;
+.btn.import-data {
+  margin: 0;
 }
 
 </style>
