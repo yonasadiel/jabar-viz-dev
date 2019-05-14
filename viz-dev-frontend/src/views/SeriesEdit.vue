@@ -74,6 +74,9 @@
           v-on:click="importCsv(series.id)"
           :disabled="!files">Import</button>
       </div>
+      <p class="download">
+        <a href="/assets/contoh_data.csv" target="_blank">Download contoh file csv</a>
+      </p>
     </div>
   </div>
 </template>
@@ -332,6 +335,12 @@ textarea {
 
 .btn.import-data {
   margin: 0;
+}
+
+.download {
+  font-size: .8em;
+  align-self: flex-start;
+  text-decoration: underline;
 }
 
 </style>
