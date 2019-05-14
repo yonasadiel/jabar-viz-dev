@@ -10,6 +10,12 @@
         Edit
     </router-link>
     <router-link
+      v-if="user"
+      v-bind:to="linkChangePassword"
+      class="d-flex flex-row align-items-center">
+        Ganti Password
+    </router-link>
+    <router-link
       v-if="user && user.role === 'admin'"
       v-bind:to="linkAccount"
       class="d-flex flex-row align-items-center">
@@ -26,18 +32,20 @@
 <script>
 import { mapState } from 'vuex';
 import logo from '@/assets/logo-jabar.png';
-import Home from '@/views/Home.vue';
-import Series from '@/views/Series.vue';
 import Account from '@/views/ManageAccount.vue';
+import ChangePassword from '@/views/ChangePassword.vue';
+import Home from '@/views/Home.vue';
 import Login from '@/views/Login.vue';
+import Series from '@/views/Series.vue';
 
 export default {
   data: () => ({
     logo,
     linkAccount: Account,
+    linkChangePassword: ChangePassword,
     linkHome: Home,
-    linkSeries: Series,
     linkLogin: Login,
+    linkSeries: Series,
   }),
   computed: {
     ...mapState({
