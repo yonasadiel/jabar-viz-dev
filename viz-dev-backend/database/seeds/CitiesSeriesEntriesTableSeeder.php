@@ -145,16 +145,19 @@ class CitiesSeriesEntriesTableSeeder extends Seeder
         DB::table('vizdev_series')->insert([
             'name' => 'Populasi',
             'description' => 'Jumlah penduduk Kab/Kota',
+            'unit' => 'jiwa',
         ]);
 
         DB::table('vizdev_series')->insert([
             'name' => 'PPK',
             'description' => 'Pendapatan Per Kapita Kab/Kota',
+            'unit' => 'rupiah',
         ]);
 
         DB::table('vizdev_series')->insert([
             'name' => 'Angka Harapan Hidup',
             'description' => 'Angka Harapan Hidup Kab/Kota',
+            'unit' => 'tahun',
         ]);
 
         $populasi_id = DB::table('vizdev_series')->where('name', 'Populasi')->first()->id;

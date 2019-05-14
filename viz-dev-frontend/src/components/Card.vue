@@ -3,7 +3,9 @@
     <img v-if="link" v-bind:src="require(`@/assets/${link}`)" class="logo"/>
     <div class="container">
       <h4><b>{{ name }}</b></h4>
-      <p>{{ desc }}</p>
+      <br/>
+      <p class="text-small">{{ sub }}</p>
+      <p class="text-small">{{ desc }}</p>
     </div>
   </div>
 </template>
@@ -11,7 +13,7 @@
 <script>
 export default {
   name: 'Card',
-  props: ['link', 'name', 'desc'],
+  props: ['link', 'name', 'sub', 'desc'],
 };
 </script>
 
@@ -36,5 +38,9 @@ export default {
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.5);
   transform: scale(1.1);
   z-index: 100;
+}
+
+.text-small {
+  font-size: .8em;
 }
 </style>

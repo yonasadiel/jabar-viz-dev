@@ -44,6 +44,7 @@ class SeriesController extends Controller
         if ($series) {
             $series->name = $request->input('name') ? : $series->name;
             $series->description = $request->input('description') ? : $series->description;
+            $series->unit = $request->input('unit') ? : $series->unit;
             $series->save();
 
             return $series;
