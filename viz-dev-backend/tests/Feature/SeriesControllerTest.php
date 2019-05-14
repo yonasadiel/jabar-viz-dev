@@ -131,6 +131,7 @@ class SeriesControllerTest extends TestCase
         $new_series = [
             'name' => 'Series 1 baru',
             'description' => 'Deskripsi Series 1 baru',
+            'unit' => 'satuan',
         ];
 
         $response = $this->actingAs($this->pemprov_user)->json('PATCH', $this->api . $updated_series->id . '/', $new_series);
@@ -139,10 +140,12 @@ class SeriesControllerTest extends TestCase
         $series = $response->json();
         $this->assertEquals($series['name'], $new_series['name'], 'Series returned should have equal name to the patched name');
         $this->assertEquals($series['description'], $new_series['description'], 'Series returned should have equal desc to the patched desc');
+        $this->assertEquals($series['unit'], $new_series['unit'], 'Series returned should have equal unit to the patched unit');
 
         $updated_series->refresh();
         $this->assertEquals($updated_series['name'], $new_series['name'], 'The series should have equal name to the patched name');
         $this->assertEquals($updated_series['description'], $new_series['description'], 'The series should have equal desc to the patched desc');
+        $this->assertEquals($updated_series['unit'], $new_series['unit'], 'The series should have equal unit to the patched unit');
     }
 
     public function testUpdateSeriesSuccessPartial()

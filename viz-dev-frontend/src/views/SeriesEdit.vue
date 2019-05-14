@@ -15,6 +15,7 @@
         <div>Nama: <input type="text" v-model="series.name"></div>
         <div>Deskripsi: </div>
         <div><textarea type="text" v-model="series.description"></textarea></div>
+        <div>Satuan: <input type="text" v-model="series.unit"></div>
         <Loader class="loader" v-if="isSavingSeries" />
         <button
           class="btn save-series"
