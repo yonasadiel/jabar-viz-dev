@@ -26,6 +26,7 @@ export default {
       for (let i = 0; i < series.length; i += 1) {
         this.propsCards.push({
           name: series[i].name,
+          sub: `Satuan: ${series[i].unit}`,
           desc: series[i].description,
         });
       }
